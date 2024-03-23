@@ -1,0 +1,19 @@
+.chat{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  //border: 1px solid green;
+}
+
+.messageContainer{
+  flex: 1;
+}
+
+.forms {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  //height: 8%;
+  height: 10vh;
+  background-color: whitesmoke;
+}
