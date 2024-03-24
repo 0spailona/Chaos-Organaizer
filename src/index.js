@@ -1,4 +1,8 @@
 import './app'
 import './css/common.css'
 import './css/forms.css'
+import './css/sendTextForm.css'
+import './css/sendFileForm.css'
 import './css/chatContainer.css'
+import './message/message.css'
+import './message/messageView'

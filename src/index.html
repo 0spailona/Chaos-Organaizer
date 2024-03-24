@@ -7,7 +7,7 @@
 <body id="root">
 <header class="header">
   <div class="centralPart nameAndNav">
-    <h1 class="sectionName">Name</h1>
+    <h1 class="sectionName">Messages</h1>
     <button class="btn showNav">Nav</button>
     <nav class="nav"></nav>
   </div>
@@ -19,13 +19,19 @@
     </div>
     <div class="forms">
       <form class="sendText visibleForm">
-        <input class="textInput" name="text" type="text" placeholder="Enter the text of your message">
+        <textarea class="textInput" maxlength="500" name="text" placeholder="Enter the text of your message" required
+                  type="text"></textarea>
         <button class="formBtn enterBtn"></button>
       </form>
       <form class="sendFile">
         <input class="fileInput" name="file" type="file">
-        <button class="btn visibleFileInput" type="button">Choose file</button>
-        <input class="inputDescribe" name="text" type="text" placeholder="Enter the describe of the file">
+        <button class="formBtn visibleFileInput" type="button"></button>
+        <div class="dataChosenFile">
+          <div class="chosenFileType"></div>
+          <span class="chosenFileName">asdfag</span>
+        </div>
+        <textarea class="inputDescribe" maxlength="500" name="text" placeholder="Enter the describe of the file"
+                  required type="text"></textarea>
         <button class="formBtn enterBtn"></button>
       </form>
       <button class="formBtn changeFormBtn changeFileFormBtn"></button>
