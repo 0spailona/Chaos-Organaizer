@@ -58,6 +58,20 @@ export default class MessageView {
 
   drawAnonymousFile() {
     const {content} = this.data;
+    const fileImgAndName = document.createElement('div');
+    fileImgAndName.classList.add('wrpAnotherType');
+
+    const typeImg = document.createElement('div');
+    typeImg.classList.add('anotherFileTypeImg');
+    fileImgAndName.appendChild(typeImg)
+
+    const fileName = document.createElement('span');
+    fileName.classList.add('anotherFileName');
+    fileName.textContent = content.name;
+    fileImgAndName.appendChild(fileName)
+
+    this.wrpFileContent.appendChild(fileImgAndName)
+    this.message.appendChild(this.wrpFileContent)
   }
 
   drawVideo() {
@@ -65,6 +79,7 @@ export default class MessageView {
     const video = document.createElement('video');
     video.classList.add('videoMsg');
     video.src = 'http://localhost:7070' + content.href;
+    video.controls = true;
     this.wrpFileContent.appendChild(video)
     this.message.appendChild(this.wrpFileContent)
   }
@@ -79,7 +94,15 @@ export default class MessageView {
   }
 
   drawAudio() {
-    const {content} = this.data;
+    const {content,fullType} = this.data;
+    const audio = document.createElement('audio');
+    audio.classList.add('audioMsg');
+    audio.src = 'http://localhost:7070' + content.href;
+    audio.type = fullType;
+    audio.preload = 'auto';
+    audio.controls = true;
+    this.wrpFileContent.appendChild(audio)
+    this.message.appendChild(this.wrpFileContent)
   }
 
   drawPinMessage() {

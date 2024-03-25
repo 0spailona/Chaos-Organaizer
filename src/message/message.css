@@ -5,45 +5,80 @@
   align-self: flex-end;
   gap: 0.2rem;
   margin: 0.5rem 1rem;
-  padding: 0.5rem 0.5rem 0.5rem 2rem;
+
   border: 1px solid #88A154;
   border-radius: 8px;
   background-color: #E8EDDE;
   color: #27293E;
 }
 
-.typeText{
+.typeText {
   width: fit-content;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
 }
 
-.typeFile{
+.typeFile {
   width: 60%;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
 }
 
 .messageText {
   font-size: 1rem;
+  word-break: break-word;
 }
 
 .messageTime {
   font-size: 0.7rem;
 }
 
-.wrpFileContent{
+.wrpFileContent {
   width: 100%;
-  margin: 1rem 1rem 1rem 0;
+  margin: 1rem 0.5rem 1rem 0;
   background-color: #E8EDDE;
 }
 
-.imgMsg{
+.imgMsg {
   width: 100%;
   height: auto;
   object-fit: contain;
 }
 
-.videoMsg{
+.videoMsg {
   width: 100%;
   height: auto;
-  margin: 1rem 1rem 1rem 0;
+  margin: 1rem 1.5rem 1rem 0;
 }
 
+.audioMsg {
 
+}
+
+.wrpAnotherType {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 5rem;
+}
+
+.anotherFileTypeImg{
+  width: 2rem;
+  height: 2rem;
+  background-image: url("../img/fileAnother.svg");
+  background-color: inherit;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.anotherFileName{
+  display: block;
+  width: 80%;
+  height: 2rem;
+  font-size: 1rem;
+  line-height: 2rem;
+  color: #27293E;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+}

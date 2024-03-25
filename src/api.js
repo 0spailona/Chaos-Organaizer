@@ -6,7 +6,7 @@ export default class Api {
   async createNewFileMsg(file){
     //console.log(file);
     //console.log(file.type)
-    const url = this.url + `/messages`
+    const url = this.url + `/messages/file`
     const request = fetch(url,{
       method: "POST",
       headers: {
@@ -26,7 +26,7 @@ export default class Api {
 
   async createNewTextMsg(text){
     console.log('api text',text);
-    const url = this.url + `/messages`
+    const url = this.url + `/messages/text`
     const request = fetch(url,{
       method: "POST",
       headers: {

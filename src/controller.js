@@ -43,33 +43,47 @@ export default class Controller {
       e.target.classList.remove('changeTextFormBtn');
       e.target.classList.add('changeFileFormBtn');
     }
+
     this.textForm.classList.toggle('visibleForm');
     this.fileForm.classList.toggle('visibleForm');
-  }
 
+    this.dataChosenFile = this.container.querySelector('.dataChosenFile');
+    this.inputDescribe = this.container.querySelector('.inputDescribe');
+    this.chosenFileName = this.container.querySelector('.chosenFileName');
+    this.typeEl = this.container.querySelector('.chosenFileType');
+  }
 
   showDataChosenFile(e){
     const file = e.target.files[0];
-    console.log('showDataFile',file.type);
-    this.container.querySelector('.dataChosenFile').style.display = 'inline-flex';
-    this.container.querySelector('.inputDescribe').style.display = 'block';
-    this.container.querySelector('.chosenFileName').textContent = file.name;
-    const typeEl = this.container.querySelector('.chosenFileType');
+    this.dataChosenFile.style.display = 'inline-flex';
+    this.inputDescribe.style.display = 'block';
+    this.chosenFileName.textContent = file.name;
     const typeSlashPos = file.type.indexOf('/');
-    const type = file.type.slice(0,typeSlashPos)
+    const type = file.type.slice(0,typeSlashPos);
+    this.toggleChosenFileTypeShowElem(type)
+  }
+
+  toggleChosenFileTypeShowElem(type){
     switch (type){
       case 'image':
-        typeEl.classList.add('typeImg');
+        this.typeEl.classList.toggle('typeImg');
         break
       case 'video':
-        typeEl.classList.add('typeVideo');
+        this.typeEl.classList.toggle('typeVideo');
         break
       case 'audio':
-        typeEl.classList.add('typeAudio');
+        this.typeEl.classList.toggle('typeAudio');
         break
       default:
-        typeEl.classList.add('typeAnother')
+        this.typeEl.classList.toggle('typeAnother')
     }
+  }
+
+
+  hideChosenFileData(){
+    this.dataChosenFile.style.display = 'none';
+    this.inputDescribe.style.display = 'none';
+    this.chosenFileName.textContent = '';
   }
 
   async sendText(e) {
@@ -77,12 +91,10 @@ export default class Controller {
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
     const msgFullData = await this.api.createNewTextMsg(obj.text);
-    console.log('msgFullData', msgFullData.created);
     this.checkLastMsgData(msgFullData)
     msgFullData.created = dateFormat(msgFullData.created, 'HH:MM');
     const msgView = new MessageView(this.messageContainer);
     msgView.drawMessage(msgFullData)
-    console.log(this.dateLastMsg)
     e.target.reset()
   }
 
@@ -99,10 +111,13 @@ export default class Controller {
     msgFullData.created = dateFormat(msgFullData.created, 'HH:MM');
 
     const typeSlashPos = msgFullData.type.indexOf('/');
-    msgFullData.type = msgFullData.type.slice(0,typeSlashPos)
+    msgFullData.fullType = msgFullData.type;
+    msgFullData.type = msgFullData.type.slice(0,typeSlashPos);
     const msgView = new MessageView(this.messageContainer);
     msgView.drawMessage(msgFullData)
 
+    this.toggleChosenFileTypeShowElem(msgFullData.type);
+    this.hideChosenFileData()
     e.target.reset()
   }
 

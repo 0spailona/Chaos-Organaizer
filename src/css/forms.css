@@ -1,30 +1,49 @@
 
 .formBtn {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   background-color: #F0B227;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+
 }
 
 .changeFormBtn {
   margin-right: 1rem;
 }
 
-.changeFileFormBtn {
+.changeFileFormBtn::after {
+  content:'';
+  width: 2rem;
+  height: 2rem;
+  display: block;
   background-image: url("../img/add-file.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
-.changeTextFormBtn {
+.changeTextFormBtn::after {
+  content:'';
+  width: 2rem;
+  height: 2rem;
+  display: block;
   background-image: url("../img/text.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
-.enterBtn {
+.enterBtn::after {
+  content:'';
+  width: 2rem;
+  height: 2rem;
+  display: block;
   background-image: url("../img/ok.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 

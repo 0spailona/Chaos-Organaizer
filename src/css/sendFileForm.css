@@ -13,28 +13,42 @@
 
 .fileInput {
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 0;
   right: 0;
   bottom: 0;
   margin: 0;
   opacity: 0.1;
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   cursor: pointer;
 }
 
 .visibleFileInput {
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 0;
   right: 0;
   bottom: 0;
   margin: 0;
+  width: 3rem;
+  height: 3rem;
+  pointer-events: none;
+
+}
+
+.visibleFileInput::after{
+  content:'';
   width: 2rem;
   height: 2rem;
-  pointer-events: none;
+  display: block;
+  position: absolute;
+  top:18%;
+  left: 20%;
   background-image: url("../img/add-file.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .dataChosenFile {
@@ -45,7 +59,16 @@
 }
 
 .chosenFileName {
+  display: block;
+  width: 80%;
+  height: 2rem;
+  font-size: 1rem;
+  line-height: 2rem;
   color: #27293E;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
 }
 
 .chosenFileType {

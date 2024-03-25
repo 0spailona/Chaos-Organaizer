@@ -19,19 +19,17 @@
     </div>
     <div class="forms">
       <form class="sendText visibleForm">
-        <textarea class="textInput" maxlength="500" name="text" placeholder="Enter the text of your message" required
-                  type="text"></textarea>
+        <textarea class="textInput" maxlength="200" name="text" placeholder="Enter the text of your message" required></textarea>
         <button class="formBtn enterBtn"></button>
       </form>
       <form class="sendFile">
         <input class="fileInput" name="file" type="file">
-        <button class="formBtn visibleFileInput" type="button"></button>
+        <button class="formBtn visibleFileInput" type="button"><img class="btnIcon"></button>
         <div class="dataChosenFile">
           <div class="chosenFileType"></div>
-          <span class="chosenFileName">asdfag</span>
+          <span class="chosenFileName"></span>
         </div>
-        <textarea class="inputDescribe" maxlength="500" name="text" placeholder="Enter the describe of the file"
-                  required type="text"></textarea>
+        <textarea class="inputDescribe" maxlength="100" name="text" placeholder="Enter the describe of the file" required></textarea>
         <button class="formBtn enterBtn"></button>
       </form>
       <button class="formBtn changeFormBtn changeFileFormBtn"></button>
