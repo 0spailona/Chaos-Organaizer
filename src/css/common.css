@@ -35,24 +35,12 @@ a:active {
   align-items: center;
   width: 80%;
   height: 100%;
-  //border: 1px solid darkred;
 }
 
 .sectionName {
   margin-left: 2rem;
   font-size: 1.8rem;
   color: #E8EDDE;
-}
-
-.btn {
-  font-size: 1.5rem;
-  font-weight: bolder;
-  color: #27293E;
-  padding: 0.5rem 1.2rem;
-  border-radius: 8px;
-  border: none;
-  background-color: #F0B227;
-  cursor: pointer;
 }
 
 .showNav{
@@ -66,7 +54,6 @@ a:active {
 .mainContainer{
   height: 90%;
   width: 80%;
-  //border: 1px solid greenyellow;
   margin: auto;
   background-color: #88A154;
 }

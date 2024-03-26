@@ -1,5 +1,6 @@
 import './app'
 import './css/common.css'
+import './css/buttons.css'
 import './css/forms.css'
 import './css/sendTextForm.css'
 import './css/sendFileForm.css'

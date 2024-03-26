@@ -1,3 +1,5 @@
+import dateFormat from "dateformat";
+
 export default class MessageView {
   constructor(container) {
     this.container = container;
@@ -108,6 +110,16 @@ export default class MessageView {
     this.wrpFileContent.appendChild(audio)
     this.message.appendChild(this.wrpFileContent)
   }
+
+  static changeDateAndTypeFormat(message) {
+    if(message.created){
+      message.created = dateFormat(message.created, 'HH:MM');
+    }
+    const typeSlashPos = message.type.indexOf('/');
+    message.fullType = message.type;
+    message.type = message.type.slice(0, typeSlashPos);
+  }
+
 
   drawPinMessage() {
 
