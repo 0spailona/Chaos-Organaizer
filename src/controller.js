@@ -6,7 +6,9 @@ export default class Controller {
     this.container = container;
     this.api = api;
     this.dateLastMsg = ''/// after first load list messages;
-    this.messageContainer = this.container.querySelector('.messageContainer')
+    this.messageContainer = this.container.querySelector('.messageContainer');
+    this.start = 0;
+    this.limit = 10;
   }
 
   init() {
@@ -15,24 +17,85 @@ export default class Controller {
       return
     }
     this.bindToDOM()
+
   }
 
-  bindToDOM() {
+  async bindToDOM() {
     const changeFormBtn = this.container.querySelector('.changeFormBtn');
     changeFormBtn.addEventListener('click', this.changeForm.bind(this));
 
-    const fileInput = this.container.querySelector('.fileInput');
-    fileInput.addEventListener('input',this.showDataChosenFile.bind(this))
+    this.fileInput = this.container.querySelector('.fileInput');
+    this.fileInput.addEventListener('input', this.showDataChosenFile.bind(this))
 
     this.textForm = this.container.querySelector('.sendText');
     this.fileForm = this.container.querySelector('.sendFile');
 
-    this.textForm.addEventListener('submit', this.sendText.bind(this))
-    this.fileForm.addEventListener('submit', this.sendFile.bind(this))
-    /*const form = this.container.querySelector('form');
-    form.addEventListener('submit', this.submitForm.bind(this));
-    const fileInput = form.querySelector('.fileInput');
-    fileInput.addEventListener('input', this.getFileFromInput.bind(this))*/
+    this.textForm.addEventListener('submit', this.sendText.bind(this));
+    this.fileForm.addEventListener('submit', this.sendFile.bind(this));
+
+    await this.drawFirstDrawListMessages(0)
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight - this.messageContainer.clientHeight;
+    this.messageContainer.addEventListener('scroll', this.onScrollContainer.bind(this))
+
+    //document.addEventListener('dragover', e => e.preventDefault());
+    //document.addEventListener('drop', e=> e.preventDefault());
+    this.container.addEventListener('dragover', e => e.preventDefault());
+    this.container.addEventListener('drop', this.dragAndDrop.bind(this))
+  }
+
+  loadSaveData() {
+    return this.loadLastMessages();
+  }
+
+  async loadLastMessages() {
+    const list = await this.api.getLastMessagesList(this.start, this.limit)
+    this.start += this.limit;
+    return list
+  }
+
+  async drawFirstDrawListMessages(sumMsgHeight) {
+    let containerHeight;
+    const lastMessages = await this.loadSaveData();
+
+    if (lastMessages.length > 0) {
+      this.drawMessageList(lastMessages);
+      containerHeight = this.messageContainer.clientHeight;
+      for (const msg of this.messageContainer.querySelectorAll('.message')) {
+        console.log('sumHeight', sumMsgHeight)
+        if (sumMsgHeight > containerHeight) {
+          break
+        } else {
+          sumMsgHeight += msg.clientHeight
+        }
+      }
+    }
+    console.log('after', sumMsgHeight)
+    console.log('after', containerHeight)
+    if (sumMsgHeight <= containerHeight) {
+      console.log('in if', sumMsgHeight)
+      await this.drawFirstDrawListMessages(sumMsgHeight)
+    }
+  }
+
+  drawMessageList(list) {
+    //console.log('drawMessageList', list)
+    for (const message of list) {
+      this.checkLastMsgData(message)
+      this.changeDateAndTypeFormat(message)
+      const msgView = new MessageView(this.messageContainer);
+      msgView.drawMessage(message, true)
+    }
+  }
+
+  changeDateAndTypeFormat(message) {
+    message.created = dateFormat(message.created, 'HH:MM');
+    const typeSlashPos = message.type.indexOf('/');
+    message.fullType = message.type;
+    message.type = message.type.slice(0, typeSlashPos);
+  }
+
+  setPinMessage() {
+
   }
 
   changeForm(e) {
@@ -53,18 +116,21 @@ export default class Controller {
     this.typeEl = this.container.querySelector('.chosenFileType');
   }
 
-  showDataChosenFile(e){
-    const file = e.target.files[0];
+  showDataChosenFile(e,file) {
+    //console.log('showDataChosenFile', e.target.files[0])
+    if(!file){
+      file = e.target.files[0];
+    }
     this.dataChosenFile.style.display = 'inline-flex';
     this.inputDescribe.style.display = 'block';
     this.chosenFileName.textContent = file.name;
     const typeSlashPos = file.type.indexOf('/');
-    const type = file.type.slice(0,typeSlashPos);
+    const type = file.type.slice(0, typeSlashPos);
     this.toggleChosenFileTypeShowElem(type)
   }
 
-  toggleChosenFileTypeShowElem(type){
-    switch (type){
+  toggleChosenFileTypeShowElem(type) {
+    switch (type) {
       case 'image':
         this.typeEl.classList.toggle('typeImg');
         break
@@ -80,7 +146,7 @@ export default class Controller {
   }
 
 
-  hideChosenFileData(){
+  hideChosenFileData() {
     this.dataChosenFile.style.display = 'none';
     this.inputDescribe.style.display = 'none';
     this.chosenFileName.textContent = '';
@@ -92,9 +158,9 @@ export default class Controller {
     const obj = Object.fromEntries(data);
     const msgFullData = await this.api.createNewTextMsg(obj.text);
     this.checkLastMsgData(msgFullData)
-    msgFullData.created = dateFormat(msgFullData.created, 'HH:MM');
+    this.changeDateAndTypeFormat(msgFullData)
     const msgView = new MessageView(this.messageContainer);
-    msgView.drawMessage(msgFullData)
+    msgView.drawMessage(msgFullData, false)
     e.target.reset()
   }
 
@@ -102,31 +168,46 @@ export default class Controller {
     e.preventDefault();
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
-    const file = obj.file;
+    const file = this.dropFile ? this.dropFile : obj.file
     file.text = obj.text;
-    console.log('fullMsg', file)
-    const msgFullData = await this.api.createNewFileMsg(obj.file);
-    console.log('fullMsg', msgFullData)
+    const msgFullData = await this.api.createNewFileMsg(file);
+    this.dropFile = undefined;
     this.checkLastMsgData(msgFullData)
-    msgFullData.created = dateFormat(msgFullData.created, 'HH:MM');
-
-    const typeSlashPos = msgFullData.type.indexOf('/');
-    msgFullData.fullType = msgFullData.type;
-    msgFullData.type = msgFullData.type.slice(0,typeSlashPos);
+    this.changeDateAndTypeFormat(msgFullData)
     const msgView = new MessageView(this.messageContainer);
-    msgView.drawMessage(msgFullData)
-
+    msgView.drawMessage(msgFullData, false)
     this.toggleChosenFileTypeShowElem(msgFullData.type);
     this.hideChosenFileData()
     e.target.reset()
   }
 
-  checkLastMsgData(msgFullData){
+  async dragAndDrop(e) {
+    e.preventDefault();
+    this.dropFile = e.dataTransfer.files[0];
+    console.log('sendFileByDragAndDrop this.dropFile',this.dropFile);
+    this.showDataChosenFile(e,this.dropFile)
+  }
+  checkLastMsgData(msgFullData) {
     const dateMsg = dateFormat(msgFullData.created, 'dd.mm.yy');
     if (this.dateLastMsg < dateMsg) {
       this.dateLastMsg = dateMsg
     }
+
   }
+
+  async onScrollContainer(e) {
+    //console.log('pos Y', e.target.scrollTop)
+    //console.log('height',e.target.clientHeight * 0.2)
+    if (e.target.scrollTop === 0) {
+      const newList = await this.loadLastMessages();
+      console.log('onScrollContainer new list', newList)
+      if (newList.length > 0) {
+        this.drawMessageList(newList)
+      }
+    }
+  }
+
+
 
   /*submitForm(e) {
 

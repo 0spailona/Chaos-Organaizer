@@ -4,8 +4,6 @@ export default class Api {
   }
 
   async createNewFileMsg(file){
-    //console.log(file);
-    //console.log(file.type)
     const url = this.url + `/messages/file`
     const request = fetch(url,{
       method: "POST",
@@ -18,7 +16,7 @@ export default class Api {
     })
     const result = await request;
     if(!result.ok){
-      console.log('Ticket was not created')
+      console.log(result.json())
       return
     }
     return await result.json();
@@ -36,7 +34,20 @@ export default class Api {
     })
     const result = await request;
     if(!result.ok){
-      console.log('Ticket was not created')
+      console.log(result.json())
+      return
+    }
+    return await result.json();
+  }
+
+  async getLastMessagesList(start,limit){
+    const url = this.url + `/messages?start=${start}&limit=${limit}`;
+    const request = fetch(url,{
+      method: "GET"
+    })
+    const result = await request;
+    if(!result.ok){
+      console.log(result.json())
       return
     }
     return await result.json();

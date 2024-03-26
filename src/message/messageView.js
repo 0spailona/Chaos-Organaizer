@@ -3,9 +3,9 @@ export default class MessageView {
     this.container = container;
   }
 
-  drawMessage(data) {
+  drawMessage(data, reverse) {
     this.data = data
-    console.log('drawMessage', data)
+    //console.log('drawMessage', data)
     const {id, content, created} = this.data;
     this.message = document.createElement('div');
     this.message.classList.add('message')
@@ -35,12 +35,16 @@ export default class MessageView {
     timeEl.classList.add('messageTime');
     timeEl.textContent = created;
     this.message.appendChild(timeEl)
+    if (!reverse) {
+      this.container.appendChild(this.message)
+    } else{
+      this.container.insertAdjacentElement("afterbegin", this.message)
+    }
 
-    this.container.appendChild(this.message)
   }
 
   drawFileMessage() {
-    const{type} = this.data;
+    const {type} = this.data;
     switch (type) {
       case 'image':
         this.drawImage()
@@ -94,7 +98,7 @@ export default class MessageView {
   }
 
   drawAudio() {
-    const {content,fullType} = this.data;
+    const {content, fullType} = this.data;
     const audio = document.createElement('audio');
     audio.classList.add('audioMsg');
     audio.src = 'http://localhost:7070' + content.href;
