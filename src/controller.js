@@ -1,17 +1,18 @@
 import MessageView from "./message/messageView";
 import dateFormat from "dateformat";
-import ChatContainer from "./containers/chatContainer";
+import Container from "./components/container";
+import Form from "./components/form";
 
 export default class Controller {
   constructor(container, api) {
-    this.container = container;
+    this.rootContainer = container;
     this.api = api;
     this.start = 0;
     this.limit = 10;
   }
 
   init() {
-    if (!this.container) {
+    if (!this.rootContainer) {
       console.log('DOM Error');
       return
     }
@@ -20,17 +21,23 @@ export default class Controller {
   }
 
   async bindToDOM() {
-    const chatContainerEl = this.container.querySelector('.chat')
-    this.chatContainer = new ChatContainer(chatContainerEl,{
-      sendMessage: this.sendMessage.bind(this),
+    const formsContainer = this.rootContainer.querySelector('.forms');
+    this.forms = new Form(formsContainer,{
+      sendMessage: this.sendMessage.bind(this)
+    })
+    this.forms.addListeners()
+
+    const containerEl = this.rootContainer.querySelector('.container')
+    this.contentContainer = new Container(containerEl,{
       scrollContainer: this.onScrollContainer.bind(this),
       scrollDownContainer:this.scrollDown.bind(this),
-      loadLastMessages:this.loadLastMessages.bind(this)
+      loadLastMessages:this.loadLastMessages.bind(this),
+      showDataChosenFile: this.forms.showDataChosenFile.bind(this)
     });
-    await this.chatContainer.addListeners()
+    await this.contentContainer.addListeners()
 
-    this.container.addEventListener('dragover', e => e.preventDefault());
-    this.container.addEventListener('drop', this.chatContainer.dragAndDrop.bind(this))
+    this.rootContainer.addEventListener('dragover', e => e.preventDefault());
+    this.rootContainer.addEventListener('drop', this.contentContainer.dragAndDrop.bind(this))
   }
 
   async loadLastMessages() {
@@ -55,7 +62,7 @@ export default class Controller {
       console.log('typeOf text',data.typeOf)
       msgFullData = await this.api.createNewTextMsg(data);
     }
-    this.chatContainer.drawNewMessage(msgFullData)
+    this.contentContainer.drawNewMessage(msgFullData)
   }
 
   async onScrollContainer(container) {
@@ -63,7 +70,7 @@ export default class Controller {
     if (container.scrollTop === 0) {
       const newList = await this.loadLastMessages();
       if (newList.length > 0) {
-        this.chatContainer.drawMessageList(newList)
+        this.contentContainer.drawMessageList(newList)
       }
     }
   }

@@ -32,9 +32,17 @@
 }
 
 .wrpFileContent {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin: 1rem 0.5rem 1rem 0;
   background-color: #E8EDDE;
+}
+
+.contentControls{
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .imgMsg {

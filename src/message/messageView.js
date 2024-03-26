@@ -14,7 +14,7 @@ export default class MessageView {
     this.message.dataset.id = id;
     let textEl
 
-    if (content.text.includes('http://') || content.text.includes('https://')) {
+    if (content.text && content.text.includes('http://') || content.text.includes('https://')) {
       textEl = document.createElement('a');
       textEl.href = content.text;
       textEl.target = '_blank'
@@ -39,7 +39,7 @@ export default class MessageView {
     this.message.appendChild(timeEl)
     if (!reverse) {
       this.container.appendChild(this.message)
-    } else{
+    } else {
       this.container.insertAdjacentElement("afterbegin", this.message)
     }
 
@@ -80,7 +80,23 @@ export default class MessageView {
     this.message.appendChild(this.wrpFileContent)
   }
 
+  drawControlBtn(name,container){
+    const btn = document.createElement('button');
+    btn.classList.add('contentControlsBtn')
+
+    switch (name){
+      case 'load':
+       btn.classList.add('loadBtn')
+        break
+    }
+    container.appendChild(btn)
+  }
+
   drawVideo() {
+    const controls = document.createElement('div');
+    controls.classList.add('contentControls');
+    this.drawControlBtn('load',controls);
+    this.wrpFileContent.appendChild(controls)
     const {content} = this.data;
     const video = document.createElement('video');
     video.classList.add('videoMsg');
@@ -112,7 +128,7 @@ export default class MessageView {
   }
 
   static changeDateAndTypeFormat(message) {
-    if(message.created){
+    if (message.created) {
       message.created = dateFormat(message.created, 'HH:MM');
     }
     const typeSlashPos = message.type.indexOf('/');
