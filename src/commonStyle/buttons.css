@@ -15,6 +15,7 @@
   width: 3rem;
   height: 3rem;
   border: none;
+  padding: 0.45rem;
   border-radius: 8px;
   cursor: pointer;
   background-color: #F0B227;
@@ -57,22 +58,29 @@
   background-size: contain;
 }
 
+/*Content buttons*/
+
 .contentControlsBtn{
+  display: block;
   width: 2rem;
   height: 2rem;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   background-color: #88A154;
 }
 
 .loadBtn::after {
   content:'';
-  width: 1rem;
-  height: 1rem;
   display: block;
+  margin: 0.24rem;
+  width: 1.4rem;
+  height: 1.4rem;
   background-image: url("../img/load.svg");
   background-repeat: no-repeat;
-  background-position: right;
+  background-position:  center;
   background-size: contain;
+}
+
+.controlLink{
+
 }

@@ -71,7 +71,7 @@ background-color: #E8EDDE;
 .anotherFileTypeImg{
   width: 2rem;
   height: 2rem;
-  background-image: url("../img/fileAnother.svg");
+  background-image: url("../../img/fileAnother.svg");
   background-color: inherit;
   background-repeat: no-repeat;
   background-position: center;

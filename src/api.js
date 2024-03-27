@@ -53,4 +53,8 @@ export default class Api {
     return await result.json();
   }
 
+  getContentHref(id){
+
+  }
+
 }

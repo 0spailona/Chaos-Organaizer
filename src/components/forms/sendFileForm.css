@@ -45,7 +45,7 @@
   position: absolute;
   top:18%;
   left: 20%;
-  background-image: url("../img/add-file.svg");
+  background-image: url("../../img/add-file.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -82,19 +82,19 @@
 }
 
 .typeImg {
-  background-image: url("../img/fileImg.svg");
+  background-image: url("../../img/fileImg.svg");
 }
 
 .typeVideo {
-  background-image: url("../img/fileVideo.svg");
+  background-image: url("../../img/fileVideo.svg");
 }
 
 .typeAudio {
-  background-image: url("../img/fileAudio.svg");
+  background-image: url("../../img/fileAudio.svg");
 }
 
 .typeAnother {
-  background-image: url("../img/fileAnother.svg");
+  background-image: url("../../img/fileAnother.svg");
 }
 
 

@@ -39,6 +39,8 @@ export default class Form{
 
   // sendFileForm changing
   showDataChosenFile(e, file) {
+    console.log('form showDataChosenFile', file)
+    this.dropFile = file ? file : this.dropFile;
     //console.log('showDataChosenFile', e.target.files[0])
     if (!file) {
       file = e.target.files[0];

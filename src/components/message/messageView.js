@@ -1,7 +1,7 @@
 import dateFormat from "dateformat";
 
 export default class MessageView {
-  constructor(container) {
+  constructor(container, eventHandlers) {
     this.container = container;
   }
 
@@ -25,7 +25,7 @@ export default class MessageView {
     textEl.textContent = content.text;
     this.message.appendChild(textEl)
 
-    if (content.href) {
+    if (content.id) {
       this.wrpFileContent = document.createElement('div');
       this.wrpFileContent.classList.add('wrpFileContent');
       this.message.classList.add('typeFile')
@@ -80,27 +80,29 @@ export default class MessageView {
     this.message.appendChild(this.wrpFileContent)
   }
 
-  drawControlBtn(name,container){
-    const btn = document.createElement('button');
-    btn.classList.add('contentControlsBtn')
-
-    switch (name){
+  drawControlBtn(use, controlsContainer, content) {
+console.log(content)
+    switch (use) {
       case 'load':
-       btn.classList.add('loadBtn')
+        const controlEl = document.createElement('a');
+        controlEl.classList.add('contentControlsBtn');
+        controlEl.href = content.href;
+        controlEl.classList.add('loadBtn');
+        controlEl.download = 'content_name'
+        controlsContainer.appendChild(controlEl)
         break
     }
-    container.appendChild(btn)
   }
 
   drawVideo() {
+    const {content} = this.data;
     const controls = document.createElement('div');
     controls.classList.add('contentControls');
-    this.drawControlBtn('load',controls);
+    this.drawControlBtn('load', controls, content);
     this.wrpFileContent.appendChild(controls)
-    const {content} = this.data;
     const video = document.createElement('video');
     video.classList.add('videoMsg');
-    video.src = 'http://localhost:7070' + content.href;
+    video.src = content.href;
     video.controls = true;
     this.wrpFileContent.appendChild(video)
     this.message.appendChild(this.wrpFileContent)
@@ -110,7 +112,7 @@ export default class MessageView {
     const {content} = this.data;
     const img = document.createElement('img');
     img.classList.add('imgMsg')
-    img.src = 'http://localhost:7070' + content.href
+    img.src = content.href;
     this.wrpFileContent.appendChild(img)
     this.message.appendChild(this.wrpFileContent)
   }
@@ -119,7 +121,7 @@ export default class MessageView {
     const {content, fullType} = this.data;
     const audio = document.createElement('audio');
     audio.classList.add('audioMsg');
-    audio.src = 'http://localhost:7070' + content.href;
+    audio.src = content.href;
     audio.type = fullType;
     audio.preload = 'auto';
     audio.controls = true;
@@ -128,6 +130,7 @@ export default class MessageView {
   }
 
   static changeDateAndTypeFormat(message) {
+    //console.log('changeDateAndTypeFormat',message)
     if (message.created) {
       message.created = dateFormat(message.created, 'HH:MM');
     }
