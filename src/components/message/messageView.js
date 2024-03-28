@@ -1,7 +1,7 @@
 import dateFormat from "dateformat";
 
 export default class MessageView {
-  constructor(container, eventHandlers) {
+  constructor(container) {
     this.container = container;
   }
 
@@ -62,8 +62,28 @@ export default class MessageView {
     }
   }
 
+  drawControlsWrp(content){
+    const controls = document.createElement('div');
+    controls.classList.add('contentControls');
+    this.drawControlBtn('load', controls, content);
+    this.wrpFileContent.appendChild(controls)
+  }
+  drawControlBtn(use, controlsContainer, content) {
+//console.log(content)
+    switch (use) {
+      case 'load':
+        const controlEl = document.createElement('a');
+        controlEl.classList.add('contentControlsBtn');
+        controlEl.href = content.href;
+        controlEl.classList.add('loadBtn');
+        controlEl.download = 'content_name'
+        controlsContainer.appendChild(controlEl)
+        break
+    }
+  }
   drawAnonymousFile() {
     const {content} = this.data;
+    this.drawControlsWrp(content)
     const fileImgAndName = document.createElement('div');
     fileImgAndName.classList.add('wrpAnotherType');
 
@@ -80,26 +100,11 @@ export default class MessageView {
     this.message.appendChild(this.wrpFileContent)
   }
 
-  drawControlBtn(use, controlsContainer, content) {
-//console.log(content)
-    switch (use) {
-      case 'load':
-        const controlEl = document.createElement('a');
-        controlEl.classList.add('contentControlsBtn');
-        controlEl.href = content.href;
-        controlEl.classList.add('loadBtn');
-        controlEl.download = 'content_name'
-        controlsContainer.appendChild(controlEl)
-        break
-    }
-  }
+
 
   drawVideo() {
     const {content} = this.data;
-    const controls = document.createElement('div');
-    controls.classList.add('contentControls');
-    this.drawControlBtn('load', controls, content);
-    this.wrpFileContent.appendChild(controls)
+    this.drawControlsWrp(content)
     const video = document.createElement('video');
     video.classList.add('videoMsg');
     video.src = content.href;
@@ -110,6 +115,7 @@ export default class MessageView {
 
   drawImage() {
     const {content} = this.data;
+    this.drawControlsWrp(content)
     const img = document.createElement('img');
     img.classList.add('imgMsg')
     img.src = content.href;
@@ -119,6 +125,7 @@ export default class MessageView {
 
   drawAudio() {
     const {content, fullType} = this.data;
+    this.drawControlsWrp(content)
     const audio = document.createElement('audio');
     audio.classList.add('audioMsg');
     audio.src = content.href;

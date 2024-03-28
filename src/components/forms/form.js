@@ -1,8 +1,11 @@
-export default class Form{
+import emitter from "component-emitter";
 
-  constructor(container,eventHandlers) {
+export default class Form extends emitter{
+
+  constructor(container) {
+    super();
     this.container = container;
-    this.eventHandlers = eventHandlers;
+    this.addListeners()
   }
   addListeners(){
     const changeFormBtn = this.container.querySelector('.changeFormBtn');
@@ -41,7 +44,6 @@ export default class Form{
   showDataChosenFile(e, file) {
     console.log('form showDataChosenFile', file)
     this.dropFile = file ? file : this.dropFile;
-    //console.log('showDataChosenFile', e.target.files[0])
     if (!file) {
       file = e.target.files[0];
     }
@@ -80,7 +82,7 @@ export default class Form{
     e.preventDefault();
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
-    await this.eventHandlers.sendMessage.call(this, obj.text)
+    this.emit('sendMessage',obj.text)
     e.target.reset()
   }
 
@@ -90,7 +92,7 @@ export default class Form{
     const obj = Object.fromEntries(data);
     const file = this.dropFile ? this.dropFile : obj.file
     file.text = obj.text;
-    await this.eventHandlers.sendMessage.call(this, file)
+    this.emit('sendMessage',file)
     const typeSlashPos = file.type.indexOf('/');
     this.toggleChosenFileTypeShowElem(file.type.slice(0, typeSlashPos));
     this.hideChosenFileData()

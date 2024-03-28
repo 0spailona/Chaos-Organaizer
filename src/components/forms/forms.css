@@ -1,9 +1,9 @@
 
 .forms {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
+  height: fit-content;
   background-color: #E8EDDE;
   box-shadow: 0 -1px 1px #88A154;
 }

@@ -1,51 +1,42 @@
 import MessageView from "../message/messageView";
 import dateFormat from "dateformat";
 import DateMessageView from "../changeDateMessage/changeDateMessage";
+import emitter from "component-emitter";
 
-export default class ContentView {
-  constructor(container, eventHandlers) {
+export default class ContentView extends emitter{
+  constructor(container) {
+    super();
     this.container = container;
-    this.eventHandlers = eventHandlers
     this.today = dateFormat(new Date, 'dd.mm.yy');
     this.lastDate = this.today;
-    //console.log('now',this.lastDate)
+    this.addListeners()
   }
 
-  async addListeners() {
+   addListeners() {
     this.scrollDown()
-    //console.log('scrollHeight',this.container.scrollHeight)
-    this.container.addEventListener('scroll', (e) => {
-      if (e.target.scrollTop !== 0) return
-      this.eventHandlers.scrollContainer.call(this, e.target)
-    })
+    this.container.addEventListener('scroll', e => {
+        if (e.target.scrollTop === 0) this.emit('needMoreMessages')
+      }
+    )
   }
 
   scrollDown() {
     this.container.scrollTop = this.container.scrollHeight
   }
 
-  async drawMessageList(list) {
-    //console.log('drawMessageList', list)
+  drawMessageList(list) {
     for (const message of list) {
       const dateMsg = dateFormat(message.created, 'dd.mm.yy');
       if (this.checkLastMsgDate(dateMsg)) {
 
         console.log('this.lastDate', this.lastDate)
         this.drawDateMessage(this.lastDate);
-        this.scrollDown()
         this.lastDate = dateMsg;
 
       }
       this.drawOneMessage(message, true)
-      this.scrollDown(this.container)
     }
-    if (this.container.scrollHeight === 0) {
-      const newList = await this.eventHandlers.needMoreMessages.call(this);
-      if (newList) {
-        await this.drawMessageList(newList)
-        this.scrollDown()
-      }
-    }
+
     this.drawDateMessage(this.lastDate)
     this.scrollDown()
   }
@@ -53,7 +44,7 @@ export default class ContentView {
   drawDateMessage(date) {
     const msg = new DateMessageView(this.container);
     msg.drawDateMessage(date)
-    this.scrollDown()
+    //this.scrollDown()
   }
 
   drawOneMessage(msg, revers) {
