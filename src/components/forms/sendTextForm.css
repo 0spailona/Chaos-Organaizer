@@ -1,5 +1,5 @@
 .sendText {
-  display: none;
+  display: inline-flex;;
   gap: 1rem;
   align-items: center;
   margin: 0.5rem 1rem;

@@ -8,7 +8,20 @@
   background-color: #F0B227;
   cursor: pointer;
 }
+/*Navigator buttons*/
 
+.navBtn{
+  flex:1;
+  font-size: 1.5rem;
+  color: #E8EDDE;
+  background-color: inherit;
+  border: none;
+  padding: 0;
+}
+
+.navBtn:hover{
+  background-color: #3a3d5f;
+}
 /*buttons for forms*/
 
 .formBtn {
@@ -25,7 +38,7 @@
   margin-right: 1rem;
 }
 
-.changeFileFormBtn::after {
+.toFileFormBtn::after {
   content:'';
   width: 2rem;
   height: 2rem;
@@ -36,7 +49,7 @@
   background-size: contain;
 }
 
-.changeTextFormBtn::after {
+.toTextFormBtn::after {
   content:'';
   width: 2rem;
   height: 2rem;
@@ -79,8 +92,4 @@
   background-repeat: no-repeat;
   background-position:  center;
   background-size: contain;
-}
-
-.controlLink{
-
 }

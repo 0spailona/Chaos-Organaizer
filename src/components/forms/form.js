@@ -20,16 +20,16 @@ export default class Form{
 
   // sendTextForm <-> sendFileForm
   changeForm(e) {
-    if (this.textForm.classList.contains('visibleForm')) {
-      e.target.classList.remove('changeFileFormBtn');
-      e.target.classList.add('changeTextFormBtn');
+    if (this.fileForm.classList.contains('hidden')) {
+      e.target.classList.remove('toFileFormBtn');
+      e.target.classList.add('toTextFormBtn');
     } else {
-      e.target.classList.remove('changeTextFormBtn');
-      e.target.classList.add('changeFileFormBtn');
+      e.target.classList.remove('toTextFormBtn');
+      e.target.classList.add('toFileFormBtn');
     }
 
-    this.textForm.classList.toggle('visibleForm');
-    this.fileForm.classList.toggle('visibleForm');
+    this.textForm.classList.toggle('hidden');
+    this.fileForm.classList.toggle('hidden');
 
     this.dataChosenFile = this.container.querySelector('.dataChosenFile');
     this.inputDescribe = this.container.querySelector('.inputDescribe');

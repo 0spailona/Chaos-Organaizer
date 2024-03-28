@@ -8,33 +8,40 @@
 <header class="header">
   <div class="centralPart nameAndNav">
     <h1 class="sectionName">Messages</h1>
-    <button class="btn showNav">Nav</button>
-    <nav class="nav"></nav>
+    <button class="btn showNav" id="toggleNavBtn">Nav</button>
   </div>
 </header>
-<main class="mainContainer">
-  <section class="chat">
-    <div class="messageContainer container">
 
-    </div>
-    <div class="forms">
-      <form class="sendText visibleForm">
-        <textarea class="textInput" maxlength="200" name="text" placeholder="Enter the text of your message" required></textarea>
-        <button class="formBtn enterBtn"></button>
-      </form>
-      <form class="sendFile">
-        <input class="fileInput" name="file" type="file">
-        <button class="formBtn visibleFileInput" type="button"><img class="btnIcon"></button>
-        <div class="dataChosenFile">
-          <div class="chosenFileType"></div>
-          <span class="chosenFileName"></span>
-        </div>
-        <textarea class="inputDescribe" maxlength="100" name="text" placeholder="Enter the describe of the file" required></textarea>
-        <button class="formBtn enterBtn"></button>
-      </form>
-      <button class="formBtn changeFormBtn changeFileFormBtn"></button>
-    </div>
-  </section>
+<main class="mainContainer">
+  <!--<section class="chat">-->
+  <nav class="navigator hidden">
+    <button class="navBtn">Messages</button>
+    <button class="navBtn">Favorites</button>
+    <button class="navBtn">Content</button>
+  </nav>
+  <div class="messageContainer container">
+
+  </div>
+  <div class="forms">
+    <form class="sendText">
+        <textarea class="textInput" maxlength="200" name="text" placeholder="Enter the text of your message"
+                  required></textarea>
+      <button class="formBtn enterBtn"></button>
+    </form>
+    <form class="sendFile hidden">
+      <input class="fileInput" name="file" type="file">
+      <button class="formBtn visibleFileInput" type="button"><img class="btnIcon"></button>
+      <div class="dataChosenFile">
+        <div class="chosenFileType"></div>
+        <span class="chosenFileName"></span>
+      </div>
+      <textarea class="inputDescribe" maxlength="100" name="text" placeholder="Enter the describe of the file"
+                required></textarea>
+      <button class="formBtn enterBtn"></button>
+    </form>
+    <button class="formBtn changeFormBtn toFileFormBtn"></button>
+  </div>
+  <!--</section>-->
 </main>
 </body>
 </html>

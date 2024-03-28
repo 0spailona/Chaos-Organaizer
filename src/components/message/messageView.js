@@ -81,7 +81,7 @@ export default class MessageView {
   }
 
   drawControlBtn(use, controlsContainer, content) {
-console.log(content)
+//console.log(content)
     switch (use) {
       case 'load':
         const controlEl = document.createElement('a');

@@ -6,3 +6,6 @@ import './components/forms/sendTextForm.css'
 import './components/forms/sendFileForm.css'
 import './components/contentView/contentView.css'
 import './components/message/message.css'
+import './components/changeDateMessage/changeDateMessage.css'
+import './components/navigator/navigator.css'
+

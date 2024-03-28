@@ -1,14 +1,15 @@
-.chat{
+/*.chat{
   display: flex;
   flex-direction: column;
   height: 100%;
-}
+}*/
 
 .messageContainer{
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  overscroll-behavior-y: none;
 }
 
 .messageContainer::-webkit-scrollbar{
@@ -21,11 +22,3 @@
 }
 
 
-.forms {
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10vh;
-  background-color: #E8EDDE;
-  box-shadow: 0 -1px 1px #88A154;
-}

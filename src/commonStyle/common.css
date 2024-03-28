@@ -1,9 +1,17 @@
 html {
   font-family: Arial, sans-serif;
   font-size: 16px;
+  overscroll-behavior-y: none;
+}
+
+body{
+  overscroll-behavior-y: none;
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: dimgrey;
   width: 100vw;
   height: 100vh;
@@ -18,6 +26,10 @@ a {
 
 a:active {
   color: #27293E
+}
+
+.hidden{
+  display: none !important;
 }
 
 .header {
@@ -47,15 +59,16 @@ a:active {
   margin-right: 2rem;
 }
 
-.nav {
-  display: none;
-}
 
 .mainContainer{
   height: 90%;
   width: 80%;
   margin: auto;
   background-color: #88A154;
+
+
+  display: flex;
+  flex-direction: column;
 }
 
 

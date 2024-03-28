@@ -1,0 +1,8 @@
+.navigator{
+  display: inline-flex;
+  background-color: #27293E;
+  height: 5%;
+  width: 100%;
+  box-shadow: 0 -1px 1px #E8EDDE;
+}
+

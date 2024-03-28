@@ -2,6 +2,7 @@ import MessageView from "./components/message/messageView";
 import dateFormat from "dateformat";
 import ContentView from "./components/contentView/contentView";
 import Form from "./components/forms/form";
+import Navigator from "./components/navigator/navigator";
 
 export default class Controller {
   constructor(container, api) {
@@ -20,6 +21,8 @@ export default class Controller {
   }
 
   async bindToDOM() {
+    const navigator = new Navigator();
+
     const formsContainer = this.rootContainer.querySelector('.forms');
     this.forms = new Form(formsContainer, {
       sendMessage: this.sendMessage.bind(this)
@@ -43,8 +46,6 @@ export default class Controller {
   }
 
   filterMessages(list){
-    
-    //console.log('filterMessages',list)
     for(const msg of list){
       if(msg.content.id){
         msg.content.href = `${this.api.url}/content/${msg.content.id}`;
