@@ -8,6 +8,8 @@ export default class Controller {
     this.view.on('needMoreMessages', this.needMoreMessages.bind(this))
     this.view.on('sendMessage', this.sendMessage.bind(this))
     this.view.on('onMode', this.mode.bind(this))
+    this.view.on('toFavorite', this.toFavorite.bind(this))
+    this.view.on('setToPin', this.setPinMessage.bind(this))
     this.init()
   }
 
@@ -25,6 +27,7 @@ export default class Controller {
 
     if (this.filter) {
       console.log('processMessages', this.filter)
+      list = this.filterMessages(list)
       //return list
     }
 
@@ -38,10 +41,25 @@ export default class Controller {
     return list
   }
 
+  filterMessages(list) {
+    console.log('controller filterMessages list before filter',list)
+    switch (this.filter) {
+      case 'Messages':
+        return list
+      case 'Favorites':
+        return list.filter(msg => msg.isFavorite);
+      case 'Content':
+
+        break
+    }
+    console.log('list after filter',list)
+    return list
+  }
+
   async needMoreMessages() {
     let newList = await this.api.getLastMessagesList(this.start, this.limit)
     this.start += this.limit;
-    console.log('needMoreMessages',newList)
+    console.log('needMoreMessages', newList)
     if (newList.length === 0) {
       this.view.addMessages(newList)
       return
@@ -52,8 +70,8 @@ export default class Controller {
   }
 
 
-  setPinMessage() {
-
+  async setPinMessage(data) {
+    const pin = await this.api.setToPin(data)
   }
 
   async sendMessage(data) {
@@ -66,21 +84,31 @@ export default class Controller {
     this.view.addOneMessage(msgFullData)
   }
 
+  async toFavorite(id) {
+    console.log('controller toFavorite id', id)
+    if (!await this.api.toFavorite(id)) {
+      alert('This message was not added to favorite')
+    }
+  }
+
   async mode(filter) {
+    this.filter = filter;
+    this.start = 0;
+    this.view.cleanContentView();
     console.log('mode', filter)
-    switch (filter) {
+    /*switch (this.filter) {
       case 'Messages':
 
         break
       case 'Favorites':
-        this.start = 0;
-        this.filter = filter;
-        this.view.cleanContentView()
+
+
+
         //await this.needMoreMessages()
         break
       case 'Content':
         break
-    }
+    }*/
     //console.log('mode')
   }
 }

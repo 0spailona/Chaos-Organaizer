@@ -16,7 +16,7 @@ export default class Api {
     })
     const result = await request;
     if(!result.ok){
-      console.log(result.json())
+      console.log(result.text())
       return
     }
     return await result.json();
@@ -34,7 +34,7 @@ export default class Api {
     })
     const result = await request;
     if(!result.ok){
-      console.log(result.json())
+      console.log(result.text())
       return
     }
     return await result.json();
@@ -47,14 +47,37 @@ export default class Api {
     })
     const result = await request;
     if(!result.ok){
-      console.log(result.json())
+      console.log(result.text())
       return
     }
     return await result.json();
   }
 
-  getContentHref(id){
-
+  async toFavorite(id){
+    const url = this.url + `/messages/${id}`
+    const request = fetch(url,{
+      method: "PATCH",
+      body: true
+    })
+    const result = await request;
+    if(!result.ok){
+      console.log(result.text())
+      return false
+    }
+    return true;
   }
 
+  async setToPin(data){
+    const url = this.url + `/messages/:${data.id}`
+    const request = fetch(url,{
+      method: "PUT",
+      body: data
+    })
+    const result = await request;
+    if(!result.ok){
+      console.log(result.text())
+      return
+    }
+    return await result.json();
+  }
 }

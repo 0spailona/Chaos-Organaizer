@@ -28,7 +28,7 @@ export default class ContentView extends emitter{
   }
 
   drawMessageList(list) {
-    console.log('drawMessageList list',list)
+    //console.log('drawMessageList list',list)
     //if(list.length === 0) return
     for (const message of list) {
       const dateMsg = dateFormat(message.created, 'dd.mm.yy');
@@ -56,6 +56,8 @@ export default class ContentView extends emitter{
     MessageView.changeDateAndTypeFormat(msg)
     const msgView = new MessageView(this.container);
     this.messages.push(msgView);
+    msgView.on('toFavoriteById', (id) => this.emit('toFavorite',id))
+    msgView.on('setToPinData', (data) => this.emit('setToPin',data))
     msgView.on('showOptions',(msgWithOptions)=>{
       for(const msg of this.messages){
         if(msg !== msgWithOptions){

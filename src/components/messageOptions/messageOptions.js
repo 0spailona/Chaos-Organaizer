@@ -31,8 +31,8 @@ export default class MessageOptions extends emitter{
         btn.classList.add('update')
         break
       case 'toPin':
-        console.log('pin')
-        btn.classList.add('toPin')
+        btn.classList.add('toPin');
+        btn.addEventListener('click',() => {this.emit('setToPin')})
         break
       case 'delete':
         btn.classList.add('delete')

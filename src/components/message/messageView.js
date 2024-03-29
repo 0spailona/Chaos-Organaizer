@@ -69,7 +69,8 @@ export default class MessageView extends emitter{
 
   drawMessageOptions() {
     const msgOptions = new MessageOptions();
-    msgOptions.on('toFavorite', () => this.emit('toFavorite',this))
+    msgOptions.on('toFavorite', () => this.emit('toFavoriteById',this.data.id))
+    msgOptions.on('setToPin', () => this.emit('setToPinData',this.data))
    this.options =  msgOptions.drawMessageOptions();
     this.messageContainer.insertAdjacentElement("afterbegin", this.options)
   }

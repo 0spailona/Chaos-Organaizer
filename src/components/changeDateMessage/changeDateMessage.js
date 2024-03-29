@@ -4,7 +4,7 @@ export default class DateMessageView {
   }
 
   drawDateMessage(date) {
-    console.log('drawDateMessage',date)
+    //console.log('drawDateMessage',date)
     this.data = date;
     const dateMsg = document.createElement('div');
     dateMsg.classList.add('dateMsgWrp')

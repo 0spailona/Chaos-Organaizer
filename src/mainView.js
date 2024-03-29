@@ -27,6 +27,9 @@ export default class MainView extends emitter{
 
     proxyEvent(this.navigator, this, 'onMode');
     //this.navigator.on('onMode',(nameChosenContent)=>this.emit('onMode',nameChosenContent))
+    //proxyEvent(this.contentView, this, 'toFavorite');
+    this.contentView.on('toFavorite', (id) => this.emit('toFavorite',id))
+    this.contentView.on('setToPin', (data) => this.emit('setToPin',data))
 
     this.rootContainer.addEventListener('dragover', e => e.preventDefault());
     this.rootContainer.addEventListener('drop', this.dragAndDrop.bind(this));
@@ -38,7 +41,7 @@ export default class MainView extends emitter{
   }
 
    addMessages(list){
-    console.log('addMessages',list)
+    //console.log('addMessages',list)
      this.contentView.drawMessageList(list)
   }
 
