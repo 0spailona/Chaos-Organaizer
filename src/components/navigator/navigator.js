@@ -1,5 +1,8 @@
-export default class Navigator {
+import emitter from "component-emitter";
+
+export default class Navigator extends emitter {
   constructor() {
+    super();
     this.navEl = document.querySelector('nav');
     this.toggleNavBtn = document.querySelector('#toggleNavBtn');
     this.toggleNavBtn.addEventListener('click', this.toggleVisible.bind(this));
@@ -18,8 +21,11 @@ export default class Navigator {
     this.navEl.classList.toggle('hidden')
   }
 
-  showContentView() {
-    console.log('showContentView')
+  showContentView(e) {
+    const nameChosenContent = e.target.textContent
+    console.log('showContentView', nameChosenContent)
+    this.emit('onMode',nameChosenContent)
+
   }
 
   hideAnotherContainers() {

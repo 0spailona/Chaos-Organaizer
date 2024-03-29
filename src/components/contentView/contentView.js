@@ -9,7 +9,9 @@ export default class ContentView extends emitter{
     this.container = container;
     this.today = dateFormat(new Date, 'dd.mm.yy');
     this.lastDate = this.today;
+    this.messages = [];
     this.addListeners()
+
   }
 
    addListeners() {
@@ -18,6 +20,7 @@ export default class ContentView extends emitter{
         if (e.target.scrollTop === 0) this.emit('needMoreMessages')
       }
     )
+
   }
 
   scrollDown() {
@@ -25,10 +28,11 @@ export default class ContentView extends emitter{
   }
 
   drawMessageList(list) {
+    console.log('drawMessageList list',list)
+    //if(list.length === 0) return
     for (const message of list) {
       const dateMsg = dateFormat(message.created, 'dd.mm.yy');
       if (this.checkLastMsgDate(dateMsg)) {
-
         console.log('this.lastDate', this.lastDate)
         this.drawDateMessage(this.lastDate);
         this.lastDate = dateMsg;
@@ -44,12 +48,22 @@ export default class ContentView extends emitter{
   drawDateMessage(date) {
     const msg = new DateMessageView(this.container);
     msg.drawDateMessage(date)
+
     //this.scrollDown()
   }
 
   drawOneMessage(msg, revers) {
     MessageView.changeDateAndTypeFormat(msg)
     const msgView = new MessageView(this.container);
+    this.messages.push(msgView);
+    msgView.on('showOptions',(msgWithOptions)=>{
+      for(const msg of this.messages){
+        if(msg !== msgWithOptions){
+          msg.hideOptions()
+        }
+      }
+    })
+    msgView.on('toFavorite', (msg) => this.emit('toFavorite',this))
     msgView.drawMessage(msg, revers)
     this.scrollDown()
   }
@@ -57,5 +71,11 @@ export default class ContentView extends emitter{
   checkLastMsgDate(dateMsg) {
     return this.lastDate > dateMsg;
   }
+
+  cleanContentContainer(){
+    this.container.innerHTML = '';
+    console.log('contentView cleanContentContainer')
+  }
+
 
 }

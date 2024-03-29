@@ -1,9 +1,10 @@
 .navigator{
   position: absolute;
+  z-index: 100;
   display: inline-flex;
-  background-color: #27293E;
-  //height: 5%;
+  box-sizing: border-box;
   width: 100%;
-  box-shadow: 0 -1px 1px #E8EDDE;
+  border-top: 1px solid #4f527d;
+  background-color: #27293E;
 }
 

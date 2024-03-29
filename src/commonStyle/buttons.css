@@ -2,13 +2,30 @@
   font-size: 1.5rem;
   font-weight: bolder;
   color: #27293E;
-  padding: 0.5rem 1.2rem;
+  padding: 0;
   border-radius: 8px;
   border: none;
   background-color: #F0B227;
   cursor: pointer;
 }
+
 /*Navigator buttons*/
+#toggleNavBtn{
+  width: 3rem;
+  height: 3rem;
+}
+
+#toggleNavBtn::after{
+  content:'';
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  margin: auto;
+  background-image: url("../img/nav.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
 
 .navBtn{
   flex:1;
@@ -16,7 +33,8 @@
   color: #E8EDDE;
   background-color: inherit;
   border: none;
-  padding: 0;
+  padding: 0.5rem;
+  cursor: pointer;
 }
 
 .navBtn:hover{
@@ -71,10 +89,42 @@
   background-size: contain;
 }
 
-/*Content buttons*/
+/* Message options button*/
 
+.msgOptionsBtn{
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  padding: 0;
+  background-color: inherit;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.showOptions{
+  background-image: url("../img/message-options.svg");
+}
+
+.update{
+  background-image: url("../img/update.svg");
+}
+
+.toPin{
+  background-image: url("../img/pin.svg");
+}
+
+.delete{
+  background-image: url("../img/delete.svg");
+}
+
+.toFavorite{
+  background-image: url("../img/add-to-favorite.svg");
+}
+/*Content buttons*/
 .contentControlsBtn{
-  display: block;
   width: 2rem;
   height: 2rem;
   border: none;
@@ -85,7 +135,7 @@
 .loadBtn::after {
   content:'';
   display: block;
-  margin: 0.24rem;
+  margin: 0.25rem;
   width: 1.4rem;
   height: 1.4rem;
   background-image: url("../img/load.svg");
@@ -93,3 +143,4 @@
   background-position:  center;
   background-size: contain;
 }
+

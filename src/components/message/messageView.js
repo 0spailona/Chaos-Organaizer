@@ -1,17 +1,34 @@
 import dateFormat from "dateformat";
+import MessageOptions from "../messageOptions/messageOptions";
+import emitter from "component-emitter";
 
-export default class MessageView {
+export default class MessageView extends emitter{
   constructor(container) {
+    super();
     this.container = container;
   }
 
   drawMessage(data, reverse) {
-    this.data = data
+    this.data = data;
+   this.messageContainer = document.createElement('div');
+    this.messageContainer.classList.add('messageContainer');
+
+
+    const messageWrp = document.createElement('div');
+    messageWrp.classList.add('messageWrp');
+
+    const msgOptionsBtn = document.createElement('button');
+    msgOptionsBtn.classList.add('msgOptionsBtn','showOptions');
+    msgOptionsBtn.addEventListener('click', this.showOptions.bind(this))
+
+    messageWrp.appendChild(msgOptionsBtn)
+
     //console.log('drawMessage', data)
     const {id, content, created} = this.data;
     this.message = document.createElement('div');
     this.message.classList.add('message')
     this.message.dataset.id = id;
+
     let textEl
 
     if (content.text && content.text.includes('http://') || content.text.includes('https://')) {
@@ -28,21 +45,46 @@ export default class MessageView {
     if (content.id) {
       this.wrpFileContent = document.createElement('div');
       this.wrpFileContent.classList.add('wrpFileContent');
-      this.message.classList.add('typeFile')
+      //this.message.classList.add('typeFile')
+      messageWrp.classList.add('typeFile')
       this.drawFileMessage()
     } else {
-      this.message.classList.add('typeText')
+      //this.message.classList.add('typeText')
+      messageWrp.classList.add('typeText')
     }
     const timeEl = document.createElement('span');
     timeEl.classList.add('messageTime');
     timeEl.textContent = created;
     this.message.appendChild(timeEl)
-    if (!reverse) {
-      this.container.appendChild(this.message)
-    } else {
-      this.container.insertAdjacentElement("afterbegin", this.message)
-    }
+    messageWrp.appendChild(this.message)
+    this.messageContainer.appendChild(messageWrp);
 
+    if (!reverse) {
+      this.container.appendChild(this.messageContainer)
+    } else {
+      this.container.insertAdjacentElement("afterbegin", this.messageContainer)
+    }
+    this.drawMessageOptions()
+  }
+
+  drawMessageOptions() {
+    const msgOptions = new MessageOptions();
+    msgOptions.on('toFavorite', () => this.emit('toFavorite',this))
+   this.options =  msgOptions.drawMessageOptions();
+    this.messageContainer.insertAdjacentElement("afterbegin", this.options)
+  }
+
+  showOptions() {
+    //this.emit('',this)
+    this.options.classList.toggle('hidden');
+    if(!this.options.classList.contains('hidden')){
+      this.emit('showOptions',this)
+    }
+    console.log('options')
+  }
+
+  hideOptions(){
+    this.options.classList.add('hidden');
   }
 
   drawFileMessage() {
@@ -62,12 +104,13 @@ export default class MessageView {
     }
   }
 
-  drawControlsWrp(content){
+  drawControlsWrp(content) {
     const controls = document.createElement('div');
     controls.classList.add('contentControls');
     this.drawControlBtn('load', controls, content);
     this.wrpFileContent.appendChild(controls)
   }
+
   drawControlBtn(use, controlsContainer, content) {
 //console.log(content)
     switch (use) {
@@ -81,6 +124,7 @@ export default class MessageView {
         break
     }
   }
+
   drawAnonymousFile() {
     const {content} = this.data;
     this.drawControlsWrp(content)
@@ -99,7 +143,6 @@ export default class MessageView {
     this.wrpFileContent.appendChild(fileImgAndName)
     this.message.appendChild(this.wrpFileContent)
   }
-
 
 
   drawVideo() {

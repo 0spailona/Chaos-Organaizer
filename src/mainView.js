@@ -2,6 +2,7 @@ import ContentView from "./components/contentView/contentView";
 import Form from "./components/forms/form";
 import Navigator from "./components/navigator/navigator";
 import emitter from "component-emitter";
+import {proxyEvent} from "./utils";
 
 export default class MainView extends emitter{
   constructor(container) {
@@ -10,7 +11,7 @@ export default class MainView extends emitter{
   }
 
   async bindToDOM() {
-    const navigator = new Navigator();
+    this.navigator = new Navigator();
 
     const formsContainer = this.rootContainer.querySelector('.forms');
     this.forms = new Form(formsContainer)
@@ -18,8 +19,14 @@ export default class MainView extends emitter{
     const contentContainerEl = this.rootContainer.querySelector('.container')
     this.contentView = new ContentView(contentContainerEl);
 
-    this.contentView.on('needMoreMessages',()=>this.emit('needMoreMessages'))
-    this.forms.on('sendMessage',(msg) => this.emit('sendMessage',msg))
+    proxyEvent(this.contentView, this, 'needMoreMessages');
+    //this.contentView.on('needMoreMessages',()=>this.emit('needMoreMessages'))
+
+    proxyEvent(this.forms, this, 'sendMessage');
+    //this.forms.on('sendMessage',(msg) => this.emit('sendMessage',msg))
+
+    proxyEvent(this.navigator, this, 'onMode');
+    //this.navigator.on('onMode',(nameChosenContent)=>this.emit('onMode',nameChosenContent))
 
     this.rootContainer.addEventListener('dragover', e => e.preventDefault());
     this.rootContainer.addEventListener('drop', this.dragAndDrop.bind(this));
@@ -31,11 +38,17 @@ export default class MainView extends emitter{
   }
 
    addMessages(list){
+    console.log('addMessages',list)
      this.contentView.drawMessageList(list)
   }
 
   addOneMessage(msg){
      this.contentView.drawOneMessage(msg,false)
   }
+
+  cleanContentView(){
+    this.contentView.cleanContentContainer()
+  }
+
 
 }
