@@ -14,11 +14,20 @@
 
 <main class="mainContainer centralPart">
   <!--<section class="chat">-->
-  <nav class="navigator hidden">
-    <button class="navBtn showMessageBtn">Messages</button>
-    <button class="navBtn showFavoritesBtn">Favorites</button>
-    <button class="navBtn showContentBtn">Content</button>
+  <nav class="navigator">
+    <button class="navBtnStyle navBtn showMessageBtn">Messages</button>
+    <button class="navBtnStyle navBtn showFavoritesBtn">Favorites</button>
+    <div class="navContent">
+      <button class="navBtnStyle navBtn showContentBtn">Content</button>
+      <div class="contentTypesButtons">
+        <button class="chooseTypeContent chooseVideo" data-type="video"></button>
+        <button class="chooseTypeContent chooseAudio" data-type="audio"></button>
+        <button class="chooseTypeContent chooseImg" data-type="img"></button>
+        <button class="chooseTypeContent chooseAnotherType" data-type="anotherType"></button>
+      </div>
+    </div>
   </nav>
+
   <div class="contentView container">
 
   </div>

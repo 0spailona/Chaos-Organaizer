@@ -34,7 +34,9 @@ export default class Controller {
     if (list.length === 0) return list
     for (const msg of list) {
       if (msg.content.id) {
+        console.log('processMessages',msg.content.id)
         msg.content.href = `${this.api.url}/content/${msg.content.id}`;
+        console.log('processMessages',msg.content.id)
       }
     }
 
@@ -42,18 +44,26 @@ export default class Controller {
   }
 
   filterMessages(list) {
-    console.log('controller filterMessages list before filter',list)
+    console.log('controller filterMessages list before filter', list)
     switch (this.filter) {
       case 'Messages':
         return list
       case 'Favorites':
         return list.filter(msg => msg.isFavorite);
-      case 'Content':
-
-        break
+      case 'video':
+        return list.filter(msg => msg.type.startsWith('video/'));
+      case 'audio':
+        return list.filter(msg => msg.type.startsWith('audio/'));
+      case 'img':
+        return list.filter(msg => msg.type.startsWith('image/'));
+      case 'anotherType':
+        list.filter(msg => msg.content.id);
+        list.filter(msg => !msg.type.startsWith('video/'));
+        list.filter(msg => !msg.type.startsWith('audio/'));
+        list.filter(msg => !msg.type.startsWith('image/'));
+        return list
     }
-    console.log('list after filter',list)
-    return list
+
   }
 
   async needMoreMessages() {
@@ -75,9 +85,11 @@ export default class Controller {
   }
 
   async sendMessage(data) {
+    console.log('controller sendMessage',data)
     let msgFullData;
     if (typeof (data) !== 'string') {
       msgFullData = await this.api.createNewFileMsg(data);
+      msgFullData.content.href = `${this.api.url}/content/${msgFullData.content.id}`;
     } else {
       msgFullData = await this.api.createNewTextMsg(data);
     }

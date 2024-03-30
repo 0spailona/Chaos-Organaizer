@@ -27,7 +27,7 @@
   background-size: contain;
 }
 
-.navBtn{
+.navBtnStyle{
   flex:1;
   font-size: 1.5rem;
   color: #E8EDDE;
@@ -37,9 +37,72 @@
   cursor: pointer;
 }
 
-.navBtn:hover{
+.navBtnStyle:hover{
   background-color: #3a3d5f;
 }
+
+/*.showContentBtn{
+ padding: 0;
+}*/
+
+.chooseTypeContent{
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  padding: 0.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #E8EDDE;
+}
+
+.chooseVideo::after {
+  content:'';
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+  background-image: url("../img/fileVideo.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.chooseAudio::after {
+  content:'';
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+  background-image: url("../img/fileAudio.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.chooseImg::after {
+  content:'';
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+  background-image: url("../img/fileImg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.chooseAnotherType::after {
+  content:'';
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+  background-image: url("../img/fileAnother.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.chooseTypeContent:hover{
+  background-color: #3a3d5f;
+}
+
 /*buttons for forms*/
 
 .formBtn {
