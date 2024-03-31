@@ -14,12 +14,12 @@
 
 <main class="mainContainer centralPart">
   <!--<section class="chat">-->
-  <nav class="navigator">
+  <nav class="navigator hidden">
     <button class="navBtnStyle navBtn showMessageBtn">Messages</button>
     <button class="navBtnStyle navBtn showFavoritesBtn">Favorites</button>
     <div class="navContent">
       <button class="navBtnStyle navBtn showContentBtn">Content</button>
-      <div class="contentTypesButtons">
+      <div class="contentTypesButtons hidden">
         <button class="chooseTypeContent chooseVideo" data-type="video"></button>
         <button class="chooseTypeContent chooseAudio" data-type="audio"></button>
         <button class="chooseTypeContent chooseImg" data-type="img"></button>
@@ -32,12 +32,12 @@
 
   </div>
   <div class="forms">
-    <form class="sendText">
+    <form class="sendText form">
         <textarea class="textInput" maxlength="200" name="text" placeholder="Enter the text of your message"
                   required></textarea>
       <button class="formBtn enterBtn"></button>
     </form>
-    <form class="sendFile hidden">
+    <form class="sendFile form hidden">
       <input class="fileInput" name="file" type="file">
       <button class="formBtn visibleFileInput" type="button"><img class="btnIcon"></button>
       <div class="dataChosenFile">

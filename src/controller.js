@@ -26,7 +26,7 @@ export default class Controller {
   processMessages(list) {
 
     if (this.filter) {
-      console.log('processMessages', this.filter)
+      //console.log('processMessages', this.filter)
       list = this.filterMessages(list)
       //return list
     }
@@ -34,9 +34,7 @@ export default class Controller {
     if (list.length === 0) return list
     for (const msg of list) {
       if (msg.content.id) {
-        console.log('processMessages',msg.content.id)
         msg.content.href = `${this.api.url}/content/${msg.content.id}`;
-        console.log('processMessages',msg.content.id)
       }
     }
 
@@ -44,7 +42,7 @@ export default class Controller {
   }
 
   filterMessages(list) {
-    console.log('controller filterMessages list before filter', list)
+    //console.log('controller filterMessages list before filter', list)
     switch (this.filter) {
       case 'Messages':
         return list
@@ -71,12 +69,12 @@ export default class Controller {
     this.start += this.limit;
     console.log('needMoreMessages', newList)
     if (newList.length === 0) {
-      this.view.addMessages(newList)
+      //this.view.addMessages(newList)
       return
 
     }
     newList = this.processMessages(newList)
-    this.view.addMessages(newList)
+    this.view.addMessages(newList,this.filter)
   }
 
 
@@ -107,6 +105,8 @@ export default class Controller {
     this.filter = filter;
     this.start = 0;
     this.view.cleanContentView();
+    if(filter !== 'Messages') this.view.hideForms()
+    else this.view.showForms()
     console.log('mode', filter)
     /*switch (this.filter) {
       case 'Messages':

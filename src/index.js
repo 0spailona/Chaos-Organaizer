@@ -9,4 +9,5 @@ import './components/message/message.css'
 import './components/changeDateMessage/changeDateMessage.css'
 import './components/navigator/navigator.css'
 import './components/messageOptions/messageOptions.css'
+import './components/contentMessage/contentMessage.css'
 

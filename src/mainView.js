@@ -3,6 +3,7 @@ import Form from "./components/forms/form";
 import Navigator from "./components/navigator/navigator";
 import emitter from "component-emitter";
 import {proxyEvent} from "./utils";
+import {filter} from "core-js/internals/array-iteration";
 
 export default class MainView extends emitter{
   constructor(container) {
@@ -13,8 +14,8 @@ export default class MainView extends emitter{
   async bindToDOM() {
     this.navigator = new Navigator();
 
-    const formsContainer = this.rootContainer.querySelector('.forms');
-    this.forms = new Form(formsContainer)
+    //const formsContainer = this.rootContainer.querySelector('.forms');
+    this.forms = new Form(this.rootContainer)
 
     const contentContainerEl = this.rootContainer.querySelector('.container')
     this.contentView = new ContentView(contentContainerEl);
@@ -40,9 +41,9 @@ export default class MainView extends emitter{
     this.forms.showDataChosenFile(e, e.dataTransfer.files[0])
   }
 
-   addMessages(list){
+   addMessages(list,filter){
     //console.log('addMessages',list)
-     this.contentView.drawMessageList(list)
+     this.contentView.drawMessageList(list,filter)
   }
 
   addOneMessage(msg){
@@ -53,5 +54,12 @@ export default class MainView extends emitter{
     this.contentView.cleanContentContainer()
   }
 
+  hideForms(){
+    this.forms.hideAllForms()
 
+  }
+
+  showForms(){
+    this.forms.showAllForms()
+  }
 }
