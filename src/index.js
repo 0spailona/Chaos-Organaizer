@@ -10,4 +10,5 @@ import './components/changeDateMessage/changeDateMessage.css'
 import './components/navigator/navigator.css'
 import './components/messageOptions/messageOptions.css'
 import './components/contentMessage/contentMessage.css'
+import './components/pinMMessage/pinMessage.css'
 

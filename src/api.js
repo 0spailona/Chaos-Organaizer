@@ -67,11 +67,11 @@ export default class Api {
     return true;
   }
 
-  async setToPin(data){
-    const url = this.url + `/messages/:${data.id}`
+  async setToPin(id){
+    const url = this.url + `/messages/pin`
     const request = fetch(url,{
       method: "PUT",
-      body: data
+      body: id
     })
     const result = await request;
     if(!result.ok){

@@ -77,3 +77,13 @@ a:active {
   flex-direction: column;
 }
 
+.pinAndAlertMessages{
+  position: absolute;
+  top:2.5rem;
+  z-index: 50;
+  width: 40%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}

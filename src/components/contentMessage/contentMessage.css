@@ -37,7 +37,7 @@
   background-image: url("../../img/fileImg.svg");
 }
 
-.anotherFile::after {
+.anotherFile {
   background-image: url("../../img/fileAnother.svg");
 }
 

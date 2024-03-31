@@ -79,7 +79,9 @@ export default class Controller {
 
 
   async setPinMessage(data) {
-    const pin = await this.api.setToPin(data)
+    const pin = await this.api.setToPin(data.id)
+    console.log('contoller setPinMessage pin', pin);
+    this.view.setPinMessage(pin)
   }
 
   async sendMessage(data) {

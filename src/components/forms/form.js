@@ -6,7 +6,7 @@ export default class Form extends emitter {
     super();
     this.mainContainer = mainContainer
     this.container = this.mainContainer.querySelector('.forms');
-    console.log('this.container.style.height', this.container.clientHeight)
+
     this.addListeners()
   }
 
@@ -44,25 +44,22 @@ export default class Form extends emitter {
   }
 
   hideAllForms() {
-    console.log('hide')
-    let height = this.container.clientHeight / screen.height * 100;
-    console.log('this.container.style.height', this.container.style.height)
+    const height = this.container.clientHeight;
     this.changeFormBtn.classList.add('hidden')
     for (const formEl of this.container.querySelectorAll('.form')) {
-      console.log('formEl', formEl)
       if (!formEl.classList.contains('hidden')) {
         formEl.classList.add('hidden')
       }
     }
-    console.log('height', height)
-    console.log('this.container.style.height', this.container.style.height)
-    this.container.style.height = height + 'hv';
-
+    this.container.style.height = height + 'px'
   }
 
   showAllForms() {
-    console.log('show')
+      this.textForm.classList.remove('hidden');
+      this.changeFormBtn.classList.remove('hidden')
+      this.container.style.height = 'fit-content'
   }
+
 
 // sendFileForm changing
   showDataChosenFile(e, file) {

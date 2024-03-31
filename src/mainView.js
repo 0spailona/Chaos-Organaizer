@@ -1,6 +1,7 @@
 import ContentView from "./components/contentView/contentView";
 import Form from "./components/forms/form";
 import Navigator from "./components/navigator/navigator";
+import PinMessage from "./components/pinMMessage/pinMessage";
 import emitter from "component-emitter";
 import {proxyEvent} from "./utils";
 import {filter} from "core-js/internals/array-iteration";
@@ -34,6 +35,9 @@ export default class MainView extends emitter{
 
     this.rootContainer.addEventListener('dragover', e => e.preventDefault());
     this.rootContainer.addEventListener('drop', this.dragAndDrop.bind(this));
+
+    const pinAndAlertContainer = this.rootContainer.querySelector('.pinAndAlertMessages')
+    this.pinMessage = new PinMessage(pinAndAlertContainer)
   }
 
   dragAndDrop(e) {
@@ -61,5 +65,9 @@ export default class MainView extends emitter{
 
   showForms(){
     this.forms.showAllForms()
+  }
+
+  setPinMessage(msg){
+    this.pinMessage.addMessage(msg)
   }
 }

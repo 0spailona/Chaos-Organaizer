@@ -2,6 +2,7 @@ import MessageView from "../message/messageView";
 import dateFormat from "dateformat";
 import DateMessageView from "../changeDateMessage/changeDateMessage";
 import MessageContentView from "../contentMessage/messageContentView";
+import PinMessage from "../pinMMessage/pinMessage";
 import emitter from "component-emitter";
 
 export default class ContentView extends emitter {
@@ -13,6 +14,7 @@ export default class ContentView extends emitter {
     this.messages = [];
     this.addListeners();
     this.whole = 0;
+
   }
 
   addListeners() {
@@ -41,8 +43,8 @@ export default class ContentView extends emitter {
     this.container.scrollTop = '10hv'
   }
 
-  drawMessageList(list,filter) {
-    console.log('drawMessageList',filter)
+  drawMessageList(list, filter) {
+    console.log('drawMessageList', filter)
     for (const message of list) {
       const dateMsg = dateFormat(message.created, 'dd.mm.yy');
       if (this.checkLastMsgDate(dateMsg)) {
@@ -50,13 +52,13 @@ export default class ContentView extends emitter {
         this.drawDateMessage(this.lastDate);
         this.lastDate = dateMsg;
       }
-      if(!filter || filter === 'Messages' || filter === 'Favorites') this.drawOneMessage(message, true)
+      if (!filter || filter === 'Messages' || filter === 'Favorites') this.drawOneMessage(message, true)
       else {
-        console.log('drawMessageList else',filter)
+        console.log('drawMessageList else', filter)
         this.drawContentMessage(message, filter)
       }
     }
-    if(!filter || filter === 'Messages'|| filter === 'Favorites' ) this.drawDateMessage(this.lastDate)
+    if (!filter || filter === 'Messages' || filter === 'Favorites') this.drawDateMessage(this.lastDate)
 
   }
 
@@ -65,10 +67,11 @@ export default class ContentView extends emitter {
     msg.drawDateMessage(date)
   }
 
-  drawContentMessage(message,filter){
-    console.log('drawContentMessage',filter)
+  drawContentMessage(message, filter) {
+    console.log('drawContentMessage', filter)
     MessageView.changeDateAndTypeFormat(message)
-    const messageContentView = new MessageContentView(this.container,filter)
+    const messageContentView = new MessageContentView(this.container, filter)
+    this.messages.push(messageContentView);
     messageContentView.drawContentMessage(message)
   }
 
@@ -101,8 +104,12 @@ export default class ContentView extends emitter {
     if (this.container.scrollTop === 0) this.emit('needMoreMessages')
     this.container.innerHTML = '';
     this.whole = 0;
+    this.messages = [];
 
     //console.log('contentView cleanContentContainer')
   }
 
+  /*setPinMessage(msg) {
+    this.pinMessage.addMessage(msg)
+  }*/
 }
