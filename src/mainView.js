@@ -32,12 +32,14 @@ export default class MainView extends emitter{
     //proxyEvent(this.contentView, this, 'toFavorite');
     this.contentView.on('toFavorite', (id) => this.emit('toFavorite',id))
     this.contentView.on('setToPin', (data) => this.emit('setToPin',data))
+    this.contentView.on('deleteMessage',(id) => this.emit('deleteMessage',id))
 
     this.rootContainer.addEventListener('dragover', e => e.preventDefault());
     this.rootContainer.addEventListener('drop', this.dragAndDrop.bind(this));
 
     const pinAndAlertContainer = this.rootContainer.querySelector('.pinAndAlertMessages')
-    this.pinMessage = new PinMessage(pinAndAlertContainer)
+    this.pinMessage = new PinMessage(pinAndAlertContainer);
+    this.pinMessage.on('deletePin',() => this.emit('deletePin'))
   }
 
   dragAndDrop(e) {
@@ -56,6 +58,7 @@ export default class MainView extends emitter{
 
   cleanContentView(){
     this.contentView.cleanContentContainer()
+    this.pinMessage.removePin()
   }
 
   hideForms(){
@@ -69,5 +72,13 @@ export default class MainView extends emitter{
 
   setPinMessage(msg){
     this.pinMessage.addMessage(msg)
+  }
+
+  removePin(){
+    this.pinMessage.removePin()
+  }
+
+  removeMessage(id){
+    this.contentView.removeMessage(id)
   }
 }

@@ -10,6 +10,8 @@ export default class Controller {
     this.view.on('onMode', this.mode.bind(this))
     this.view.on('toFavorite', this.toFavorite.bind(this))
     this.view.on('setToPin', this.setPinMessage.bind(this))
+    this.view.on('deletePin', this.deletePin.bind(this))
+    this.view.on('deleteMessage',this.deleteMessage.bind(this))
     this.init()
   }
 
@@ -20,9 +22,13 @@ export default class Controller {
     }
     await this.view.bindToDOM()
     await this.needMoreMessages();
+
   }
 
-
+  async checkPin(){
+    const pin = await this.api.getPin()
+    if(pin) this.view.setPinMessage(pin)
+  }
   processMessages(list) {
 
     if (this.filter) {
@@ -74,7 +80,10 @@ export default class Controller {
 
     }
     newList = this.processMessages(newList)
-    this.view.addMessages(newList,this.filter)
+    this.view.addMessages(newList, this.filter)
+    if(!this.filter || this.filter === 'Messages'){
+      await this.checkPin()
+    }
   }
 
 
@@ -84,8 +93,15 @@ export default class Controller {
     this.view.setPinMessage(pin)
   }
 
+  async deletePin() {
+    const result = await this.api.deletePinFromServer()
+    console.log(result)
+    if(result) this.view.removePin()
+
+  }
+
   async sendMessage(data) {
-    console.log('controller sendMessage',data)
+    console.log('controller sendMessage', data)
     let msgFullData;
     if (typeof (data) !== 'string') {
       msgFullData = await this.api.createNewFileMsg(data);
@@ -103,26 +119,22 @@ export default class Controller {
     }
   }
 
+  async deleteMessage(id){
+    console.log('deleteMessage id',id)
+    const result = await this.api.deleteMessage(id)
+    if(!result){
+      console.log('deleteMessage false',result)
+    }
+    console.log('deleteMessage true',result)
+    this.view.removeMessage(id)
+  }
+
   async mode(filter) {
     this.filter = filter;
     this.start = 0;
     this.view.cleanContentView();
-    if(filter !== 'Messages') this.view.hideForms()
+    if (filter !== 'Messages') this.view.hideForms()
     else this.view.showForms()
     console.log('mode', filter)
-    /*switch (this.filter) {
-      case 'Messages':
-
-        break
-      case 'Favorites':
-
-
-
-        //await this.needMoreMessages()
-        break
-      case 'Content':
-        break
-    }*/
-    //console.log('mode')
   }
 }

@@ -11,7 +11,7 @@ export default class PinMessage extends emitter {
     this.typeEl = this.container.querySelector('.pinFile');
 
     this.removeBtn = this.container.querySelector('.removePinBtn')
-    this.removeBtn.addEventListener('click', this.removePin.bind(this))
+    this.removeBtn.addEventListener('click', this.deletePin.bind(this))
   }
 
   addMessage(data) {
@@ -41,9 +41,12 @@ export default class PinMessage extends emitter {
     if (this.typeEl.classList.contains('anotherFile')) this.typeEl.classList.remove('anotherFile')
   }
 
-  removePin() {
+  deletePin() {
+    this.emit('deletePin')
+  }
+
+  removePin(){
     this.pin.style.display = 'none';
     this.removeStyles();
-    this.emit('deletePin')
   }
 }

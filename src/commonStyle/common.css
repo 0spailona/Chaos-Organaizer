@@ -79,10 +79,10 @@ a:active {
 
 .pinAndAlertMessages{
   position: absolute;
-  top:2.5rem;
+  top:0;
   z-index: 50;
-  width: 40%;
-  padding: 0.5rem;
+  width: 100%;
+  padding: 0 0.5rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

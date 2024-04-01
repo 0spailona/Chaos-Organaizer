@@ -80,4 +80,42 @@ export default class Api {
     }
     return await result.json();
   }
+
+  async deletePinFromServer(){
+    const url = this.url + `/messages/pin`;
+    const request = fetch(url,{
+      method: "DELETE",
+    })
+    const result = await request;
+    if(!result.ok){
+      console.log(result.text())
+    }
+    return result
+  }
+
+  async deleteMessage(id){
+    const url = this.url + `/messages/${id}`
+    const request = fetch(url,{
+      method: "DELETE",
+    })
+    const result = await request;
+    if(!result.ok){
+      console.log(result.text())
+      return false
+    }
+    return true;
+  }
+
+  async getPin(){
+    const url = this.url + `/messages/pin`;
+    const request = fetch(url,{
+      method: "GET",
+    })
+    const result = await request;
+    if(result.status === 201){
+      console.log('api getPin',result)
+      return false
+    }
+    return await result.json();
+  }
 }

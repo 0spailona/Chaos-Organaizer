@@ -88,7 +88,8 @@ export default class ContentView extends emitter {
         }
       }
     })
-    msgView.on('toFavorite', (msg) => this.emit('toFavorite', this))
+    //msgView.on('toFavorite', (msg) => this.emit('toFavorite', this))
+    msgView.on('deleteMessageDyId', (data)=>this.emit('deleteMessage',data))
     msgView.drawMessage(msg, revers)
     if (!revers) this.scrollDown()
     this.isWholeContainer()
@@ -109,7 +110,11 @@ export default class ContentView extends emitter {
     //console.log('contentView cleanContentContainer')
   }
 
-  /*setPinMessage(msg) {
-    this.pinMessage.addMessage(msg)
-  }*/
+  removeMessage(id){
+    const msg = this.messages.find(msg => msg.data.id === id)
+    //console.log('removeMessage',msg)
+    msg.removeMessage()
+    this.messages.filter(msg => msg.data.id !== id)
+  }
+
 }

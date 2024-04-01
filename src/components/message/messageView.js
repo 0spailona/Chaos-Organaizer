@@ -2,7 +2,7 @@ import dateFormat from "dateformat";
 import MessageOptions from "../messageOptions/messageOptions";
 import emitter from "component-emitter";
 
-export default class MessageView extends emitter{
+export default class MessageView extends emitter {
   constructor(container) {
     super();
     this.container = container;
@@ -10,7 +10,7 @@ export default class MessageView extends emitter{
 
   drawMessage(data, reverse) {
     this.data = data;
-   this.messageContainer = document.createElement('div');
+    this.messageContainer = document.createElement('div');
     this.messageContainer.classList.add('messageContainer');
 
 
@@ -18,7 +18,7 @@ export default class MessageView extends emitter{
     messageWrp.classList.add('messageWrp');
 
     const msgOptionsBtn = document.createElement('button');
-    msgOptionsBtn.classList.add('msgOptionsBtn','showOptions');
+    msgOptionsBtn.classList.add('msgOptionsBtn', 'showOptions');
     msgOptionsBtn.addEventListener('click', this.showOptions.bind(this))
 
     messageWrp.appendChild(msgOptionsBtn)
@@ -69,22 +69,32 @@ export default class MessageView extends emitter{
 
   drawMessageOptions() {
     const msgOptions = new MessageOptions();
-    msgOptions.on('toFavorite', () => this.emit('toFavoriteById',this.data.id))
-    msgOptions.on('setToPin', () => this.emit('setToPinData',this.data))
-   this.options =  msgOptions.drawMessageOptions();
+    msgOptions.on('toFavorite', () => {
+      this.emit('toFavoriteById', this.data.id);
+      this.hideOptions()
+    })
+    msgOptions.on('setToPin', () => {
+      this.emit('setToPinData', this.data)
+      this.hideOptions()
+    })
+    msgOptions.on('deleteMessage', () => {
+      this.emit('deleteMessageDyId', this.data.id)
+      this.hideOptions()
+    })
+    this.options = msgOptions.drawMessageOptions();
     this.messageContainer.insertAdjacentElement("afterbegin", this.options)
   }
 
   showOptions() {
     //this.emit('',this)
     this.options.classList.toggle('hidden');
-    if(!this.options.classList.contains('hidden')){
-      this.emit('showOptions',this)
+    if (!this.options.classList.contains('hidden')) {
+      this.emit('showOptions', this)
     }
     console.log('options')
   }
 
-  hideOptions(){
+  hideOptions() {
     this.options.classList.add('hidden');
   }
 
@@ -190,8 +200,8 @@ export default class MessageView extends emitter{
     message.type = message.type.slice(0, typeSlashPos);
   }
 
-
-  drawPinMessage() {
-
+  removeMessage() {
+    //console.log('remove msg')
+    this.messageContainer.remove()
   }
 }
