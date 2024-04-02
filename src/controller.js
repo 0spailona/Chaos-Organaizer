@@ -12,6 +12,7 @@ export default class Controller {
     this.view.on('setToPin', this.setPinMessage.bind(this))
     this.view.on('deletePin', this.deletePin.bind(this))
     this.view.on('deleteMessage',this.deleteMessage.bind(this))
+    this.view.on('search',this.searchText.bind(this))
     this.init()
   }
 
@@ -110,8 +111,12 @@ export default class Controller {
       msgFullData = await this.api.createNewTextMsg(data);
     }
     this.view.addOneMessage(msgFullData)
+    this.view.showTextForm()
   }
 
+  async searchText(data){
+    console.log('controller searchText', data)
+  }
   async toFavorite(id) {
     console.log('controller toFavorite id', id)
     if (!await this.api.toFavorite(id)) {

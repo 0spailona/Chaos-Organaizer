@@ -9,6 +9,37 @@
   cursor: pointer;
 }
 
+.searchBtn{
+  width: 3rem;
+  height: 3rem;
+}
+
+.searchBtn::after{
+  content:'';
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  margin: auto;
+  background-image: url("../img/search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+/* Search form submit button*/
+
+.submitSearchForm{
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  background-color: inherit;
+  background-image: url("../img/search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.2;
+
+}
+
 /*Navigator buttons*/
 #toggleNavBtn{
   width: 3rem;

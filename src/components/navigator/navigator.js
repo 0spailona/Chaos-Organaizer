@@ -4,13 +4,7 @@ export default class Navigator extends emitter {
   constructor() {
     super();
     this.navEl = document.querySelector('nav');
-    this.toggleNavBtn = document.querySelector('#toggleNavBtn');
-    this.toggleNavBtn.addEventListener('click', this.toggleVisibleNav.bind(this));
     this.contentTypesButtons = this.navEl.querySelector('.contentTypesButtons')
-
-    this.messageBtn = this.navEl.querySelector('.showMessageBtn');
-    this.favoritesBtn = this.navEl.querySelector('.showFavoritesBtn');
-    this.contentBtn = this.navEl.querySelector('.showContentBtn');
 
     for (const btn of this.navEl.querySelectorAll('.chooseTypeContent')) {
       btn.addEventListener('click', this.getContentType.bind(this))
@@ -25,10 +19,17 @@ export default class Navigator extends emitter {
   }
 
   toggleVisibleNav() {
-    console.log('toggle nav')
+
     this.navEl.classList.toggle('hidden')
+    console.log('nav toggle')
   }
 
+  hideNav(){
+    if(!this.navEl.classList.contains('hidden')) {
+      this.navEl.classList.add('hidden')
+      console.log('nav hidden')
+    }
+  }
   showContentView(e) {
     const nameChosenContent = e.target.textContent
     if(nameChosenContent === this.nameSection) return;

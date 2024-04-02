@@ -46,11 +46,11 @@ export default class MessageView extends emitter {
       this.wrpFileContent = document.createElement('div');
       this.wrpFileContent.classList.add('wrpFileContent');
       //this.message.classList.add('typeFile')
-      messageWrp.classList.add('typeFile')
+      this.message.classList.add('typeFile')
       this.drawFileMessage()
     } else {
       //this.message.classList.add('typeText')
-      messageWrp.classList.add('typeText')
+      this.message.classList.add('typeText')
     }
     const timeEl = document.createElement('span');
     timeEl.classList.add('messageTime');

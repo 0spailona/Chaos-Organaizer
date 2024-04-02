@@ -1,6 +1,6 @@
 import emitter from "component-emitter";
 
-export default class Form extends emitter {
+export default class SendForm extends emitter {
 
   constructor(mainContainer) {
     super();
@@ -22,25 +22,26 @@ export default class Form extends emitter {
 
     this.textForm.addEventListener('submit', this.sendText.bind(this));
     this.fileForm.addEventListener('submit', this.sendFile.bind(this));
-  }
 
-  // sendTextForm <-> sendFileForm
-  changeForm(e) {
-    if (this.fileForm.classList.contains('hidden')) {
-      e.target.classList.remove('toFileFormBtn');
-      e.target.classList.add('toTextFormBtn');
-    } else {
-      e.target.classList.remove('toTextFormBtn');
-      e.target.classList.add('toFileFormBtn');
-    }
-
-    this.textForm.classList.toggle('hidden');
-    this.fileForm.classList.toggle('hidden');
 
     this.dataChosenFile = this.container.querySelector('.dataChosenFile');
     this.inputDescribe = this.container.querySelector('.inputDescribe');
     this.chosenFileName = this.container.querySelector('.chosenFileName');
     this.typeEl = this.container.querySelector('.chosenFileType');
+  }
+
+  // sendTextForm <-> sendFileForm
+  changeForm() {
+    if (this.fileForm.classList.contains('hidden')) {
+      this.changeFormBtn.classList.remove('toFileFormBtn');
+      this.changeFormBtn.classList.add('toTextFormBtn');
+    } else {
+      this.changeFormBtn.classList.remove('toTextFormBtn');
+      this.changeFormBtn.classList.add('toFileFormBtn');
+    }
+
+    this.textForm.classList.toggle('hidden');
+    this.fileForm.classList.toggle('hidden');
   }
 
   hideAllForms() {
