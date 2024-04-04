@@ -16,7 +16,6 @@
 .searchForm {
   display: flex;
   padding: 0.5rem;
-  //border: 1px solid #E8EDDE;
   width: 300px;
   background-color: #E8EDDE;
 }

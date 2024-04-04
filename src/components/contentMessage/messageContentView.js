@@ -1,5 +1,4 @@
 import emitter from "component-emitter";
-import {filter} from "core-js/internals/array-iteration";
 import messagesFilter from "../../stringData";
 
 export default class MessageContentView extends emitter {
@@ -12,51 +11,51 @@ export default class MessageContentView extends emitter {
   drawContentMessage(data) {
     this.data = data;
     const {content} = this.data;
-    console.log('drawContentMessage data', data)
-    this.contentContainer = document.createElement('div');
-    this.contentContainer.classList.add('containerContainer');
 
-    this.fileEl = document.createElement('div');
-    this.fileEl.classList.add('typeImgAndDescription')
-    this.drawTypeImg()
+    this.contentContainer = document.createElement("div");
+    this.contentContainer.classList.add("containerContainer");
 
-    const description = document.createElement('span')
-    description.classList.add('contentMessageDescription')
-    description.textContent = content.text
+    this.fileEl = document.createElement("div");
+    this.fileEl.classList.add("typeImgAndDescription");
+    this.drawTypeImg();
 
-    this.fileEl.appendChild(description)
-    this.contentContainer.appendChild(this.fileEl)
+    const description = document.createElement("span");
+    description.classList.add("contentMessageDescription");
+    description.textContent = content.text;
 
-    const controlEl = document.createElement('a');
-    controlEl.classList.add('contentControlsBtn');
+    this.fileEl.appendChild(description);
+    this.contentContainer.appendChild(this.fileEl);
+
+    const controlEl = document.createElement("a");
+    controlEl.classList.add("contentControlsBtn");
     controlEl.href = content.href;
-    controlEl.classList.add('loadBtn');
-    controlEl.download = 'content_name'
-    this.contentContainer.appendChild(controlEl)
+    controlEl.classList.add("loadBtn");
+    controlEl.download = "content_name";
+    this.contentContainer.appendChild(controlEl);
 
-    this.container.appendChild(this.contentContainer)
+    this.container.appendChild(this.contentContainer);
   }
 
   drawTypeImg() {
-    const typeFileEl = document.createElement('div');
-    typeFileEl.classList.add('typeFileImg');
+    const typeFileEl = document.createElement("div");
+    typeFileEl.classList.add("typeFileImg");
 
     switch (this.filter) {
       case messagesFilter.contentType.video:
-        typeFileEl.classList.add('videoFile')
-        break
+        typeFileEl.classList.add("videoFile");
+        break;
       case messagesFilter.contentType.audio:
-        typeFileEl.classList.add('audioFile')
-        break
+        typeFileEl.classList.add("audioFile");
+        break;
       case messagesFilter.contentType.image:
-        typeFileEl.classList.add('imgFile')
-        break
+        typeFileEl.classList.add("imgFile");
+        break;
       default:
-        typeFileEl.classList.add('anotherFile')
+        typeFileEl.classList.add("anotherFile");
         break;
     }
 
-    this.fileEl.appendChild(typeFileEl)
+    this.fileEl.appendChild(typeFileEl);
   }
 
 }

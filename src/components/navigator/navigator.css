@@ -10,20 +10,20 @@
 
 .navContent {
   position: relative;
-  flex:1;
   display: flex;
   flex-direction: column;
+  flex: 1;
   padding: 0;
 }
 
-.contentTypesButtons{
+.contentTypesButtons {
   position: absolute;
-  top:100%;
+  top: 100%;
   display: inline-flex;
   gap: 0.5rem;
   box-sizing: border-box;
-  padding: 0.5rem 1rem;
   width: 100%;
+  padding: 0.5rem 1rem;
   border-top: 1px solid #4f527d;
   background-color: #27293E;
 }

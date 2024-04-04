@@ -1,16 +1,16 @@
-.pin{
+.pin {
   box-sizing: border-box;
   display: none;
-  gap:1rem;
+  gap: 1rem;
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #b5c18a;
   border-radius: 8px;
-  background-color:  #bfca9b;
+  background-color: #bfca9b;
   color: #27293E;
 }
 
-.pinImg{
+.pinImg {
   width: 1.5rem;
   height: 1.5rem;
   margin-bottom: 0.7rem;
@@ -23,7 +23,7 @@
 
 
 /* Styles of type of file is in contentMessage.css*/
-.pinFile{
+.pinFile {
   width: 1.5rem;
   height: 1.5rem;
   background-color: inherit;
@@ -32,15 +32,13 @@
   background-size: contain;
 }
 
-.mainTextAndDate{
-  flex:1;
+.mainTextAndDate {
+  flex: 1;
   display: flex;
   flex-direction: column;
-
-
 }
 
-.pinText{
+.pinText {
   vertical-align: center;
   font-size: 0.9rem;
   word-break: break-word;
@@ -48,7 +46,7 @@
   padding: 0.5rem;
 }
 
-.pinDate{
+.pinDate {
   align-self: end;
   font-size: 0.7rem;
   box-sizing: border-box;

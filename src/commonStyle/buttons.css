@@ -6,16 +6,15 @@
   border-radius: 8px;
   border: none;
   background-color: #F0B227;
-  cursor: pointer;
 }
 
-.searchBtn{
+.searchBtn {
   width: 3rem;
   height: 3rem;
 }
 
-.searchBtn::after{
-  content:'';
+.searchBtn::after {
+  content: '';
   width: 2rem;
   height: 2rem;
   display: block;
@@ -25,9 +24,10 @@
   background-position: center;
   background-size: contain;
 }
+
 /* Search form submit button*/
 
-.submitSearchForm{
+.submitSearchForm {
   width: 1rem;
   height: 1rem;
   border: none;
@@ -37,17 +37,31 @@
   background-position: center;
   background-size: contain;
   opacity: 0.2;
+}
 
+/* Geolocation form submit button*/
+
+.submitAddGeolocationForm {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  background-color: inherit;
+  background-image: url("../img/ok.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.2;
 }
 
 /*Navigator buttons*/
-#toggleNavBtn{
+#toggleNavBtn {
   width: 3rem;
   height: 3rem;
 }
 
-#toggleNavBtn::after{
-  content:'';
+#toggleNavBtn::after {
+  content: '';
   width: 2rem;
   height: 2rem;
   display: block;
@@ -58,8 +72,8 @@
   background-size: contain;
 }
 
-.navBtnStyle{
-  flex:1;
+.navBtnStyle {
+  flex: 1;
   font-size: 1.5rem;
   color: #E8EDDE;
   background-color: inherit;
@@ -68,15 +82,11 @@
   cursor: pointer;
 }
 
-.navBtnStyle:hover{
+.navBtnStyle:hover {
   background-color: #3a3d5f;
 }
 
-/*.showContentBtn{
- padding: 0;
-}*/
-
-.chooseTypeContent{
+.chooseTypeContent {
   width: 1.5rem;
   height: 1.5rem;
   border: none;
@@ -87,7 +97,7 @@
 }
 
 .chooseVideo::after {
-  content:'';
+  content: '';
   width: 1.2rem;
   height: 1.2rem;
   display: block;
@@ -98,7 +108,7 @@
 }
 
 .chooseAudio::after {
-  content:'';
+  content: '';
   width: 1.2rem;
   height: 1.2rem;
   display: block;
@@ -109,7 +119,7 @@
 }
 
 .chooseImg::after {
-  content:'';
+  content: '';
   width: 1.2rem;
   height: 1.2rem;
   display: block;
@@ -120,7 +130,7 @@
 }
 
 .chooseAnotherType::after {
-  content:'';
+  content: '';
   width: 1.2rem;
   height: 1.2rem;
   display: block;
@@ -130,12 +140,11 @@
   background-size: contain;
 }
 
-.chooseTypeContent:hover{
+.chooseTypeContent:hover {
   background-color: #3a3d5f;
 }
 
 /*buttons for forms*/
-
 .formBtn {
   width: 3rem;
   height: 3rem;
@@ -151,7 +160,7 @@
 }
 
 .toFileFormBtn::after {
-  content:'';
+  content: '';
   width: 2rem;
   height: 2rem;
   display: block;
@@ -162,7 +171,7 @@
 }
 
 .toTextFormBtn::after {
-  content:'';
+  content: '';
   width: 2rem;
   height: 2rem;
   display: block;
@@ -173,7 +182,7 @@
 }
 
 .enterBtn::after {
-  content:'';
+  content: '';
   width: 2rem;
   height: 2rem;
   display: block;
@@ -185,40 +194,41 @@
 
 /* Message options button*/
 
-.msgOptionsBtn{
+.msgOptionsBtn {
   width: 1rem;
   height: 1rem;
   border: none;
   padding: 0;
   background-color: inherit;
-
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   cursor: pointer;
 }
 
-.showOptions{
+.showOptions {
   background-image: url("../img/message-options.svg");
 }
 
-.update{
+.update {
   background-image: url("../img/update.svg");
 }
 
-.toPin{
+.toPin {
   background-image: url("../img/pin.svg");
 }
 
-.delete{
+.delete {
   background-image: url("../img/delete.svg");
 }
 
-.toFavorite{
+.toFavorite {
   background-image: url("../img/add-to-favorite.svg");
 }
+
 /*Content buttons*/
-.contentControlsBtn{
+
+.contentControlsBtn {
   width: 2rem;
   height: 2rem;
   border: none;
@@ -227,19 +237,20 @@
 }
 
 .loadBtn::after {
-  content:'';
+  content: '';
   display: block;
   margin: 0.25rem;
   width: 1.4rem;
   height: 1.4rem;
   background-image: url("../img/load.svg");
   background-repeat: no-repeat;
-  background-position:  center;
+  background-position: center;
   background-size: contain;
 }
 
 /*Pin remove button*/
-.removePinBtn{
+
+.removePinBtn {
   width: 1.4rem;
   height: 1.4rem;
   border: none;
@@ -248,19 +259,8 @@
   background-color: inherit;
   background-image: url("../img/remove.svg");
   background-repeat: no-repeat;
-  background-position:  center;
+  background-position: center;
   background-size: contain;
   cursor: pointer;
 }
 
-/*.removePinBtn::after {
-  content:'';
-  display: block;
-  //margin: 0.25rem;
-  width: 1rem;
-  height: 1rem;
-  background-image: url("../img/remove.svg");
-  background-repeat: no-repeat;
-  background-position:  center;
-  background-size: contain;
-}*/

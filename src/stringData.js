@@ -1,14 +1,14 @@
 const messagesFilter = {
-  messages: 'Messages',
-  favorites: 'Favorites',
-  content: 'Content',
+  messages: "Messages",
+  favorites: "Favorites",
+  content: "Content",
   contentType: {
-    video:'video',
-    audio:'audio',
-    image:'image',
-    anotherType: 'another'
+    video: "video",
+    audio: "audio",
+    image: "image",
+    anotherType: "another"
   },
-  search:'Search'
-}
+  search: "Search"
+};
 
-export default messagesFilter
+export default messagesFilter;

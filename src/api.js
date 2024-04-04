@@ -1,151 +1,167 @@
 import messagesFilter from "./stringData";
-import {isCyrillicSymbols} from "./utils";
+import {slugify} from "transliteration";
+
 export default class Api {
   constructor(url) {
     this.url = url;
   }
 
-  async createNewFileMsg(file){
-    if(isCyrillicSymbols(file.name)){
-
+  createHeaders(coords, file) {
+    if (coords && file) {
+      return {
+        "Content-Type": file.type,
+        "X-File-Name": slugify(`${file.name}`),
+        "X-File-describe": encodeURI(file.text),
+        "X-longitude": coords.longitude,
+        "X-latitude": coords.latitude
+      };
     }
 
-    console.log('api is need translit',isCyrillicSymbols(file.name))
+    if (!coords && file) {
+      return {
+        "Content-Type": file.type,
+        "X-File-Name": slugify(`${file.name}`),
+        "X-File-describe": encodeURI(file.text)
+      };
+    }
 
+    if (!coords && !file) {
+      return {
+        "Content-Type": "text/plain"
+      };
+    } else {
+      return {
+        "Content-Type": "text/plain",
+        "X-longitude": coords.longitude,
+        "X-latitude": coords.latitude
+      };
+    }
+  }
 
-
-
-    const url = this.url + `/messages/file`
-    const request = fetch(url,{
+  async createNewFileMsg(file, coords) {
+    const url = this.url + `/messages/file`;
+    const headers = coords ? this.createHeaders(coords, file) : this.createHeaders(null, file);
+    const request = fetch(url, {
       method: "POST",
-      credentials: 'include',
-      headers: {
-        'Content-Type':file.type,
-        'X-File-Name': encodeURI(file.name),
-        'X-File-describe': encodeURI(file.text),
-      },
+      credentials: "include",
+      headers: headers,
       body: file
-    })
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return
+    if (!result.ok) {
+      console.log(await result.text());
+      return;
     }
     return await result.json();
   }
 
-  async createNewTextMsg(text){
+  async createNewTextMsg(text, coords) {
     //console.log('api text',text);
-    const url = this.url + `/messages/text`
-    const request = fetch(url,{
+    const headers = coords ? this.createHeaders(coords, null) : this.createHeaders(null, null);
+    const url = this.url + `/messages/text`;
+    const request = fetch(url, {
       method: "POST",
-      credentials: 'include',
-      headers: {
-        'Content-Type':'text/plain'
-      },
+      credentials: "include",
+      headers: headers,
       body: text
-    })
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return
+    if (!result.ok) {
+      console.log(await result.text());
+      return;
     }
     return await result.json();
   }
 
-  async getLastMessagesList(options){
-    const {start,limit,filter,searchText} = options
-    let url
-    if(searchText) url = this.url + `/messages?start=${start}&limit=${limit}&text=${searchText}`;
-    else if(filter && filter!== messagesFilter.messages && filter!== messagesFilter.search){
-      if(filter === messagesFilter.favorites) url = this.url + `/messages?start=${start}&limit=${limit}&favorite=${true}`;
-     else url = this.url + `/messages?start=${start}&limit=${limit}&type=${filter}`;
-    }
-    else url = this.url + `/messages?start=${start}&limit=${limit}`;
-    const request = fetch(url,{
+  async getLastMessagesList(options) {
+    const {start, limit, filter, searchText} = options;
+    let url;
+    if (searchText) url = this.url + `/messages?start=${start}&limit=${limit}&text=${searchText}`;
+    else if (filter && filter !== messagesFilter.messages && filter !== messagesFilter.search) {
+      if (filter === messagesFilter.favorites) url = this.url + `/messages?start=${start}&limit=${limit}&favorite=${true}`;
+      else url = this.url + `/messages?start=${start}&limit=${limit}&type=${filter}`;
+    } else url = this.url + `/messages?start=${start}&limit=${limit}`;
+    const request = fetch(url, {
       method: "GET",
-      credentials: 'include'
-    })
+      credentials: "include"
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return
+    if (!result.ok) {
+      console.log(await result.text());
+      return;
     }
     return await result.json();
   }
 
 
-
-  async toFavorite(id){
-    const url = this.url + `/messages/${id}`
-    const request = fetch(url,{
+  async toFavorite(id) {
+    const url = this.url + `/messages/${id}`;
+    const request = fetch(url, {
       method: "PATCH",
-      credentials: 'include',
+      credentials: "include",
       body: true
-    })
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return false
+    if (!result.ok) {
+      console.log(await result.text());
+      return false;
     }
     return true;
   }
 
-  async setToPin(id){
-    const url = this.url + `/messages/pin`
-    const request = fetch(url,{
+  async setToPin(id) {
+    const url = this.url + `/messages/pin`;
+    const request = fetch(url, {
       method: "PUT",
-      credentials: 'include',
+      credentials: "include",
       body: id
-    })
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return
+    if (!result.ok) {
+      console.log(await result.text());
+      return;
     }
     return await result.json();
   }
 
-  async deletePinFromServer(){
+  async deletePinFromServer() {
     const url = this.url + `/messages/pin`;
-    const request = fetch(url,{
+    const request = fetch(url, {
       method: "DELETE",
-      credentials: 'include',
-    })
+      credentials: "include",
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
+    if (!result.ok) {
+      console.log(await result.text());
     }
-    return result
+    return result;
   }
 
-  async deleteMessage(id){
-    const url = this.url + `/messages/${id}`
-    const request = fetch(url,{
+  async deleteMessage(id) {
+    const url = this.url + `/messages/${id}`;
+    const request = fetch(url, {
       method: "DELETE",
-      credentials: 'include',
-    })
+      credentials: "include",
+    });
     const result = await request;
-    if(!result.ok){
-      console.log(result.text())
-      return false
+    if (!result.ok) {
+      console.log(await result.text());
+      return false;
     }
     return true;
   }
 
-  async getPin(){
+  async getPin() {
     const url = this.url + `/messages/pin`;
-    const request = fetch(url,{
+    const request = fetch(url, {
       method: "GET",
-      credentials: 'include',
-    })
+      credentials: "include",
+    });
     const result = await request;
-    if(result.status === 201){
-      console.log('api getPin',result)
-      return false
+    if (result.status !== 200) {
+      console.log(await result.text());
+      return false;
     }
     return await result.json();
   }
-
-
 }

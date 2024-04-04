@@ -2,7 +2,6 @@ import MessageView from "../message/messageView";
 import dateFormat from "dateformat";
 import DateMessageView from "../changeDateMessage/changeDateMessage";
 import MessageContentView from "../contentMessage/messageContentView";
-import PinMessage from "../pinMMessage/pinMessage";
 import emitter from "component-emitter";
 import messagesFilter from "../../stringData";
 
@@ -10,23 +9,21 @@ export default class ContentView extends emitter {
   constructor(container) {
     super();
     this.container = container;
-    this.today = dateFormat(new Date, 'dd.mm.yy');
+    this.today = dateFormat(new Date, "dd.mm.yy");
     this.lastDate = this.today;
     this.messages = [];
     this.addListeners();
     this.whole = 0;
-
   }
 
   addListeners() {
-    this.scrollDown()
-    this.container.addEventListener('scroll', e => {
-        if (e.target.scrollTop === 0) {
-          this.emit('needMoreMessages')
-          this.scrollTop()
-        }
+    this.scrollDown();
+    this.container.addEventListener("scroll", e => {
+      if (e.target.scrollTop === 0) {
+        this.emit("needMoreMessages");
+        this.scrollTop();
       }
-    )
+    });
   }
 
   isWholeContainer() {
@@ -37,19 +34,17 @@ export default class ContentView extends emitter {
 
 
   scrollDown() {
-    this.container.scrollTop = this.container.scrollHeight
+    this.container.scrollTop = this.container.scrollHeight;
   }
 
   scrollTop() {
-    this.container.scrollTop = '10hv'
+    this.container.scrollTop = "10hv";
   }
 
   drawMessageList(list, filter) {
-    console.log('drawMessageList', filter)
     for (const message of list) {
-      const dateMsg = dateFormat(message.created, 'dd.mm.yy');
+      const dateMsg = dateFormat(message.created, "dd.mm.yy");
       if (this.checkLastMsgDate(dateMsg)) {
-        //console.log('this.lastDate', this.lastDate)
         this.drawDateMessage(this.lastDate);
         this.lastDate = dateMsg;
       }
@@ -57,53 +52,50 @@ export default class ContentView extends emitter {
         || filter === messagesFilter.messages
         || filter === messagesFilter.favorites
         || filter === messagesFilter.search) {
-        this.drawOneMessage(message, true)
+        this.drawOneMessage(message, true);
       } else {
-        //console.log('drawMessageList else', filter)
-        this.drawContentMessage(message, filter)
+        this.drawContentMessage(message, filter);
       }
     }
     if (!filter
       || filter === messagesFilter.messages
       || filter === messagesFilter.favorites
       || filter === messagesFilter.search) {
-      this.drawDateMessage(this.lastDate)
+      this.drawDateMessage(this.lastDate);
     }
-
   }
 
   drawDateMessage(date) {
     const msg = new DateMessageView(this.container);
-    msg.drawDateMessage(date)
+    msg.drawDateMessage(date);
   }
 
   drawContentMessage(message, filter) {
-    console.log('drawContentMessage', filter)
-    MessageView.changeDateAndTypeFormat(message)
-    const messageContentView = new MessageContentView(this.container, filter)
+    MessageView.changeDateAndTypeFormat(message);
+    const messageContentView = new MessageContentView(this.container, filter);
     this.messages.push(messageContentView);
-    messageContentView.drawContentMessage(message)
+    messageContentView.drawContentMessage(message);
   }
 
   drawOneMessage(msg, revers) {
-    MessageView.changeDateAndTypeFormat(msg)
+    MessageView.changeDateAndTypeFormat(msg);
     const msgView = new MessageView(this.container);
     this.messages.push(msgView);
-    msgView.on('toFavoriteById', (id) => this.emit('toFavorite', id))
-    msgView.on('setToPinData', (data) => this.emit('setToPin', data))
-    msgView.on('showOptions', (msgWithOptions) => {
+    msgView.on("toFavoriteById", (id) => this.emit("toFavorite", id));
+    msgView.on("setToPinData", (data) => this.emit("setToPin", data));
+    msgView.on("showOptions", (msgWithOptions) => {
       for (const msg of this.messages) {
         if (msg !== msgWithOptions) {
-          msg.hideOptions()
+          msg.hideOptions();
         }
       }
-    })
-    //msgView.on('toFavorite', (msg) => this.emit('toFavorite', this))
-    msgView.on('deleteMessageDyId', (data) => this.emit('deleteMessage', data))
-    msgView.drawMessage(msg, revers)
-    if (!revers) this.scrollDown()
-    this.isWholeContainer()
-    if (revers && this.whole <= 1) this.scrollDown()
+    });
+
+    msgView.on("deleteMessageDyId", (data) => this.emit("deleteMessage", data));
+    msgView.drawMessage(msg, revers);
+    if (!revers) this.scrollDown();
+    this.isWholeContainer();
+    if (revers && this.whole <= 1) this.scrollDown();
   }
 
   checkLastMsgDate(dateMsg) {
@@ -111,20 +103,15 @@ export default class ContentView extends emitter {
   }
 
   cleanContentContainer() {
-    //console.log('scrollTop', this.container.scrollTop)
-    if (this.container.scrollTop === 0) this.emit('needMoreMessages')
-    this.container.innerHTML = '';
+    if (this.container.scrollTop === 0) this.emit("needMoreMessages");
+    this.container.innerHTML = "";
     this.whole = 0;
     this.messages = [];
-
-    //console.log('contentView cleanContentContainer')
   }
 
   removeMessage(id) {
-    const msg = this.messages.find(msg => msg.data.id === id)
-    //console.log('removeMessage',msg)
-    msg.removeMessage()
-    this.messages.filter(msg => msg.data.id !== id)
+    const msg = this.messages.find(msg => msg.data.id === id);
+    msg.removeMessage();
+    this.messages.filter(msg => msg.data.id !== id);
   }
-
 }
