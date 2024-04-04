@@ -1,4 +1,5 @@
 import emitter from "component-emitter";
+import messagesFilter from "../../stringData";
 
 export default class SearchForm extends emitter {
   constructor() {
@@ -23,6 +24,8 @@ export default class SearchForm extends emitter {
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
     this.emit('search', obj.search)
+    const sectionName = messagesFilter.search
+    this.emit('changeSectionNameInUI',sectionName)
     e.target.reset()
     this.hideForm()
   }

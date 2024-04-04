@@ -1,4 +1,6 @@
 .searchFormWrp {
+  position: absolute;
+  z-index: 100;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

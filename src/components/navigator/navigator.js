@@ -1,5 +1,5 @@
 import emitter from "component-emitter";
-
+import messagesFilter from "../../stringData";
 export default class Navigator extends emitter {
   constructor() {
     super();
@@ -14,8 +14,6 @@ export default class Navigator extends emitter {
       btn.addEventListener('click', this.showContentView.bind(this))
     }
 
-    this.nameSectionEl = document.querySelector('.sectionName')
-    this.nameSection = this.nameSectionEl.textContent;
   }
 
   toggleVisibleNav() {
@@ -24,24 +22,36 @@ export default class Navigator extends emitter {
     console.log('nav toggle')
   }
 
-  hideNav(){
-    if(!this.navEl.classList.contains('hidden')) {
+  hideNav() {
+    if (!this.navEl.classList.contains('hidden')) {
       this.navEl.classList.add('hidden')
       console.log('nav hidden')
     }
   }
+
   showContentView(e) {
     const nameChosenContent = e.target.textContent
-    if(nameChosenContent === this.nameSection) return;
-    if (nameChosenContent !== 'Content') this.emit('onMode', nameChosenContent)
+    this.emit('getSectionName')
+    //console.log('navigator showContentView this.sectionName', this.sectionName)
+    if (nameChosenContent === this.sectionName) {
+      this.toggleVisibleNav()
+      return
+    }
+    ;
+    if (nameChosenContent !== messagesFilter.content) this.emit('onMode', nameChosenContent)
     else {
       this.toggleVisibleContentTypeNav()
       return
     }
-    this.nameSectionEl.textContent = nameChosenContent;
-    this.nameSection = nameChosenContent;
+    this.emit('changeSectionNameInUI', nameChosenContent)
+    //this.nameSectionEl.textContent = nameChosenContent;
+    this.sectionName = nameChosenContent;
     this.toggleVisibleNav()
-    if(!this.contentTypesButtons.classList.contains('hidden')) this.toggleVisibleContentTypeNav()
+    if (!this.contentTypesButtons.classList.contains('hidden')) this.toggleVisibleContentTypeNav()
+  }
+
+  setSectionName(name) {
+    this.sectionName = name
   }
 
   toggleVisibleContentTypeNav() {
@@ -50,16 +60,12 @@ export default class Navigator extends emitter {
 
   getContentType(e) {
     console.log('getContentType', e.target.dataset.type)
-   const nameChosenContent = e.target.dataset.type;
+    const nameChosenContent = e.target.dataset.type;
     this.emit('onMode', nameChosenContent)
-    this.nameSectionEl.textContent = `Content: ${nameChosenContent}`;
-    this.nameSection = nameChosenContent;
+    this.emit('changeSectionNameInUI', nameChosenContent)
+    this.sectionName = nameChosenContent
     this.toggleVisibleNav();
     this.toggleVisibleContentTypeNav()
-  }
-
-  hideAnotherContainers() {
-
   }
 
 }

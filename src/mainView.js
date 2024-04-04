@@ -6,6 +6,7 @@ import SearchForm from "./components/forms/searchForm";
 import emitter from "component-emitter";
 import {proxyEvent} from "./utils";
 import {filter} from "core-js/internals/array-iteration";
+import Header from "./components/header/header";
 
 export default class MainView extends emitter{
   constructor(container) {
@@ -14,10 +15,18 @@ export default class MainView extends emitter{
   }
 
   async bindToDOM() {
+    this.header = new Header(this.rootContainer)
+    this.header.on('toggleNav',this.toggleVisibleNav.bind(this))
+    this.header.on('toggleSearchForm', this.toggleVisibleSearchForm.bind(this))
+
     this.navigator = new Navigator();
-    this.toggleNavBtn = document.querySelector('#toggleNavBtn');
-    this.toggleNavBtn.addEventListener('click', this.toggleVisibleNav.bind(this));
-    //const formsContainer = this.rootContainer.querySelector('.forms');
+    this.navigator.on('getSectionName',this.getSectionName.bind(this))
+    this.navigator.on('changeSectionNameInUI',(name) => this.header.setNewNameSection(name))
+
+    this.searchForm = new SearchForm();
+    this.searchForm.on('search',(data) => this.emit('search',data))
+    this.searchForm.on('changeSectionNameInUI', (name) => this.header.setNewNameSection(name))
+
     this.sendForm = new SendForm(this.rootContainer)
 
     const contentContainerEl = this.rootContainer.querySelector('.container')
@@ -43,10 +52,7 @@ export default class MainView extends emitter{
     this.pinMessage = new PinMessage(pinAndAlertContainer);
     this.pinMessage.on('deletePin',() => this.emit('deletePin'))
 
-    this.searchForm = new SearchForm();
-    const showSearchFormBtn = this.rootContainer.querySelector('#searchBtn')
-    showSearchFormBtn.addEventListener('click', this.toggleVisibleSearchForm.bind(this))
-    this.searchForm.on('search',(data) => this.emit('search',data))
+
   }
 
   toggleVisibleNav(){
@@ -64,7 +70,7 @@ export default class MainView extends emitter{
   }
 
    addMessages(list,filter){
-    //console.log('addMessages',list)
+    console.log('addMessages',list)
      this.contentView.drawMessageList(list,filter)
   }
 
@@ -100,5 +106,9 @@ export default class MainView extends emitter{
 
   showTextForm(){
     this.sendForm.changeForm()
+  }
+
+  getSectionName(){
+    this.navigator.setSectionName(this.header.getCurrentNameSection())
   }
 }

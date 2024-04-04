@@ -1,5 +1,7 @@
 
 .forms {
+  position: relative;
+  z-index: 3;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -4,6 +4,7 @@ import DateMessageView from "../changeDateMessage/changeDateMessage";
 import MessageContentView from "../contentMessage/messageContentView";
 import PinMessage from "../pinMMessage/pinMessage";
 import emitter from "component-emitter";
+import messagesFilter from "../../stringData";
 
 export default class ContentView extends emitter {
   constructor(container) {
@@ -52,13 +53,22 @@ export default class ContentView extends emitter {
         this.drawDateMessage(this.lastDate);
         this.lastDate = dateMsg;
       }
-      if (!filter || filter === 'Messages' || filter === 'Favorites') this.drawOneMessage(message, true)
-      else {
-        console.log('drawMessageList else', filter)
+      if (!filter
+        || filter === messagesFilter.messages
+        || filter === messagesFilter.favorites
+        || filter === messagesFilter.search) {
+        this.drawOneMessage(message, true)
+      } else {
+        //console.log('drawMessageList else', filter)
         this.drawContentMessage(message, filter)
       }
     }
-    if (!filter || filter === 'Messages' || filter === 'Favorites') this.drawDateMessage(this.lastDate)
+    if (!filter
+      || filter === messagesFilter.messages
+      || filter === messagesFilter.favorites
+      || filter === messagesFilter.search) {
+      this.drawDateMessage(this.lastDate)
+    }
 
   }
 
@@ -89,7 +99,7 @@ export default class ContentView extends emitter {
       }
     })
     //msgView.on('toFavorite', (msg) => this.emit('toFavorite', this))
-    msgView.on('deleteMessageDyId', (data)=>this.emit('deleteMessage',data))
+    msgView.on('deleteMessageDyId', (data) => this.emit('deleteMessage', data))
     msgView.drawMessage(msg, revers)
     if (!revers) this.scrollDown()
     this.isWholeContainer()
@@ -110,7 +120,7 @@ export default class ContentView extends emitter {
     //console.log('contentView cleanContentContainer')
   }
 
-  removeMessage(id){
+  removeMessage(id) {
     const msg = this.messages.find(msg => msg.data.id === id)
     //console.log('removeMessage',msg)
     msg.removeMessage()

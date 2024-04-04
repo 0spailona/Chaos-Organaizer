@@ -120,6 +120,7 @@ export default class SendForm extends emitter {
     this.hideChosenFileData()
     this.dropFile = undefined;
     e.target.reset()
+    this.changeForm()
   }
 
 

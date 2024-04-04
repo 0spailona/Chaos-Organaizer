@@ -1,5 +1,6 @@
 import emitter from "component-emitter";
 import {filter} from "core-js/internals/array-iteration";
+import messagesFilter from "../../stringData";
 
 export default class MessageContentView extends emitter {
   constructor(container, filter) {
@@ -41,13 +42,13 @@ export default class MessageContentView extends emitter {
     typeFileEl.classList.add('typeFileImg');
 
     switch (this.filter) {
-      case 'video':
+      case messagesFilter.contentType.video:
         typeFileEl.classList.add('videoFile')
         break
-      case 'audio':
+      case messagesFilter.contentType.audio:
         typeFileEl.classList.add('audioFile')
         break
-      case 'img':
+      case messagesFilter.contentType.image:
         typeFileEl.classList.add('imgFile')
         break
       default:
