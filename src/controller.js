@@ -117,6 +117,9 @@ export default class Controller {
     } else {
       msgFullData = await this.api.createNewTextMsg(data, coords);
     }
+
+    msgFullData = this.processMessages([msgFullData])[0];
+
     this.view.addOneMessage(msgFullData);
   }
 

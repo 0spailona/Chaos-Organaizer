@@ -7,44 +7,29 @@ export default class Api {
   }
 
   createHeaders(coords, file) {
-    if (coords && file) {
-      return {
-        "Content-Type": file.type,
-        "X-File-Name": slugify(`${file.name}`),
-        "X-File-describe": encodeURI(file.text),
-        "X-longitude": coords.longitude,
-        "X-latitude": coords.latitude
-      };
+    const headers = {
+      "Content-Type": file?.type ?? "text/plain",
+    };
+
+    if (file) {
+        headers["X-File-Name"] = slugify(file.name);
+        headers["X-File-describe"] = encodeURI(file.text);
     }
 
-    if (!coords && file) {
-      return {
-        "Content-Type": file.type,
-        "X-File-Name": slugify(`${file.name}`),
-        "X-File-describe": encodeURI(file.text)
-      };
+    if (coords) {
+      headers["X-longitude"] = coords.longitude;
+      headers["X-latitude"] = coords.latitude;
     }
-
-    if (!coords && !file) {
-      return {
-        "Content-Type": "text/plain"
-      };
-    } else {
-      return {
-        "Content-Type": "text/plain",
-        "X-longitude": coords.longitude,
-        "X-latitude": coords.latitude
-      };
-    }
+    return headers;
   }
 
   async createNewFileMsg(file, coords) {
     const url = this.url + `/messages/file`;
-    const headers = coords ? this.createHeaders(coords, file) : this.createHeaders(null, file);
+    const headers = this.createHeaders(coords, file);
     const request = fetch(url, {
       method: "POST",
       credentials: "include",
-      headers: headers,
+      headers,
       body: file
     });
     const result = await request;
@@ -57,12 +42,12 @@ export default class Api {
 
   async createNewTextMsg(text, coords) {
     //console.log('api text',text);
-    const headers = coords ? this.createHeaders(coords, null) : this.createHeaders(null, null);
+    const headers = this.createHeaders(coords, null);
     const url = this.url + `/messages/text`;
     const request = fetch(url, {
       method: "POST",
       credentials: "include",
-      headers: headers,
+      headers,
       body: text
     });
     const result = await request;
@@ -76,11 +61,20 @@ export default class Api {
   async getLastMessagesList(options) {
     const {start, limit, filter, searchText} = options;
     let url;
-    if (searchText) url = this.url + `/messages?start=${start}&limit=${limit}&text=${searchText}`;
+    if (searchText) {
+      url = this.url + `/messages?start=${start}&limit=${limit}&text=${searchText}`;
+    }
     else if (filter && filter !== messagesFilter.messages && filter !== messagesFilter.search) {
-      if (filter === messagesFilter.favorites) url = this.url + `/messages?start=${start}&limit=${limit}&favorite=${true}`;
-      else url = this.url + `/messages?start=${start}&limit=${limit}&type=${filter}`;
-    } else url = this.url + `/messages?start=${start}&limit=${limit}`;
+      if (filter === messagesFilter.favorites) {
+        url = this.url + `/messages?start=${start}&limit=${limit}&favorite=${true}`;
+      }
+      else {
+        url = this.url + `/messages?start=${start}&limit=${limit}&type=${filter}`;
+      }
+    }
+    else {
+      url = this.url + `/messages?start=${start}&limit=${limit}`;
+    }
     const request = fetch(url, {
       method: "GET",
       credentials: "include"

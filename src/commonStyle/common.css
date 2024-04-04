@@ -30,7 +30,15 @@ a {
 }
 
 a:active {
-  color: #27293E
+  color: #F0B227;
+}
+
+a:visited {
+color: #27293E;
+}
+
+a:hover {
+  color: #F0B227;
 }
 
 .hidden {
