@@ -59,7 +59,7 @@ export default class MainView extends emitter {
 
   dragAndDrop(e) {
     e.preventDefault();
-    this.sendForm.showFileForm()
+    this.sendForm.showFileForm();
     this.sendForm.showDataChosenFile(e, e.dataTransfer.files[0]);
   }
 

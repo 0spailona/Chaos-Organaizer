@@ -49,24 +49,24 @@ export default class SendForm extends emitter {
     if (this.fileForm.classList.contains("hidden")) {
       this.changeFormBtn.classList.remove("toFileFormBtn");
       this.changeFormBtn.classList.add("toTextFormBtn");
-      this.textForm.reset()
+      this.textForm.reset();
     } else {
       this.changeFormBtn.classList.remove("toTextFormBtn");
       this.changeFormBtn.classList.add("toFileFormBtn");
-      this.fileForm.reset()
+      this.fileForm.reset();
     }
 
     this.textForm.classList.toggle("hidden");
     this.fileForm.classList.toggle("hidden");
   }
 
-  showFileForm(){
+  showFileForm() {
     if (this.fileForm.classList.contains("hidden")) {
       this.changeFormBtn.classList.remove("toFileFormBtn");
       this.changeFormBtn.classList.add("toTextFormBtn");
       this.textForm.classList.add("hidden");
       this.fileForm.classList.remove("hidden");
-      this.textForm.reset()
+      this.textForm.reset();
     }
   }
 
