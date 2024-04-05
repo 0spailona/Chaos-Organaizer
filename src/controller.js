@@ -16,6 +16,10 @@ export default class Controller {
     this.view.on("deletePin", this.deletePin.bind(this));
     this.view.on("deleteMessage", this.deleteMessage.bind(this));
     this.view.on("search", this.searchMessagesByText.bind(this));
+    this.view.on("reset", this.loadDefaultSession.bind(this));
+    //this.view.on("notDefault",this.loadSession.bind(this));
+
+    // noinspection JSIgnoredPromiseFromCall
     this.init();
   }
 
@@ -25,11 +29,16 @@ export default class Controller {
       return;
     }
 
+    // noinspection ES6MissingAwait
     this.getLocation();
     await this.view.bindToDOM();
     await this.needMoreMessages();
   }
 
+  async loadDefaultSession() {
+    const result = await this.api.setDefaultDB()
+    if(result) window.location.reload()
+  }
 
   async getLocation() {
     let resolvePromise;
@@ -63,6 +72,9 @@ export default class Controller {
 
 
   async needMoreMessages() {
+    console.log(
+      'needMoreMessages'
+    )
     const options = {start: this.start, limit: this.limit, filter: this.filter, searchText: null};
     this.start += this.limit;
 

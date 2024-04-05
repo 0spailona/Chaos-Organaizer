@@ -1,4 +1,5 @@
 import emitter from "component-emitter";
+import messagesFilter from "../../stringData";
 
 export default class MessageOptions extends emitter {
   constructor(id) {
@@ -6,11 +7,13 @@ export default class MessageOptions extends emitter {
     this.id = id;
   }
 
-  drawMessageOptions() {
+  drawMessageOptions(filter) {
     this.optionsContainer = document.createElement("div");
     this.optionsContainer.classList.add("optionsContainer", "hidden");
-
-    this.drawButton("toFavorite");
+    console.log('filter',filter)
+    if (filter !== messagesFilter.favorites) {
+      this.drawButton("toFavorite");
+    }
 
     //Update button is not ready to use
     /*this.drawButton('update')*/

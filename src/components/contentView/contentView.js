@@ -52,7 +52,7 @@ export default class ContentView extends emitter {
         || filter === messagesFilter.messages
         || filter === messagesFilter.favorites
         || filter === messagesFilter.search) {
-        this.drawOneMessage(message, true);
+        this.drawOneMessage(message, true,filter);
       } else {
         this.drawContentMessage(message, filter);
       }
@@ -77,7 +77,7 @@ export default class ContentView extends emitter {
     messageContentView.drawContentMessage(message);
   }
 
-  drawOneMessage(msg, revers) {
+  drawOneMessage(msg, revers,filter) {
     MessageView.changeDateAndTypeFormat(msg);
     const msgView = new MessageView(this.container);
     this.messages.push(msgView);
@@ -92,7 +92,7 @@ export default class ContentView extends emitter {
     });
 
     msgView.on("deleteMessageDyId", (data) => this.emit("deleteMessage", data));
-    msgView.drawMessage(msg, revers);
+    msgView.drawMessage(msg, revers,filter);
     if (!revers) this.scrollDown();
     this.isWholeContainer();
     if (revers && this.whole <= 1) this.scrollDown();

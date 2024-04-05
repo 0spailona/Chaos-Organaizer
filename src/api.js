@@ -6,6 +6,20 @@ export default class Api {
     this.url = url;
   }
 
+  async setDefaultDB(){
+    const url = this.url + `/messages/reset`;
+    const request = fetch(url, {
+      method: "POST",
+      credentials: "include",
+    });
+    const result = await request;
+    if (result.status !== 200) {
+      console.log('error');
+      return;
+    }
+    return true;
+  }
+
   createHeaders(coords, file) {
     const headers = {
       "Content-Type": file?.type ?? "text/plain",

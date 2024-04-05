@@ -12,6 +12,13 @@ export default class Header extends emitter {
 
     const showSearchFormBtn = this.header.querySelector("#searchBtn");
     showSearchFormBtn.addEventListener("click", this.toggleVisibleSearchForm.bind(this));
+
+    const resetBtn = this.header.querySelector('.resetBtn');
+    resetBtn.addEventListener('click', this.resetDb.bind(this))
+  }
+
+  resetDb(){
+    this.emit('reset')
   }
 
   toggleVisibleNav() {

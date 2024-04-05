@@ -19,7 +19,8 @@ export default class MessageView extends emitter {
     message.type = message.type.slice(0, typeSlashPos);
   }
 
-  drawMessage(data, reverse) {
+  drawMessage(data, reverse,filter) {
+    this.filter = filter;
     this.data = data;
     this.messageContainer = document.createElement("div");
     this.messageContainer.classList.add("messageContainer");
@@ -81,7 +82,7 @@ export default class MessageView extends emitter {
       this.emit("deleteMessageDyId", this.data.id);
       this.hideOptions();
     });
-    this.options = msgOptions.drawMessageOptions();
+    this.options = msgOptions.drawMessageOptions(this.filter);
     this.messageContainer.insertAdjacentElement("afterbegin", this.options);
   }
 

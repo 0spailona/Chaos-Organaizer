@@ -17,6 +17,7 @@ export default class MainView extends emitter {
     this.header = new Header(this.rootContainer);
     this.header.on("toggleNav", this.toggleVisibleNav.bind(this));
     this.header.on("toggleSearchForm", this.toggleVisibleSearchForm.bind(this));
+    this.header.on("reset",() => this.emit('reset'))
 
     this.navigator = new Navigator();
     this.navigator.on("getSectionName", this.getSectionName.bind(this));
@@ -78,7 +79,6 @@ export default class MainView extends emitter {
 
   hideForms() {
     this.sendForm.hideAllForms();
-
   }
 
   showForms() {
@@ -104,4 +104,6 @@ export default class MainView extends emitter {
   getSectionName() {
     this.navigator.setSectionName(this.header.getCurrentNameSection());
   }
+
+
 }
