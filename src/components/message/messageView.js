@@ -30,6 +30,7 @@ export default class MessageView extends emitter {
 
     const msgOptionsBtn = document.createElement("button");
     msgOptionsBtn.classList.add("msgOptionsBtn", "showOptions");
+    msgOptionsBtn.title = 'Message menu'
     msgOptionsBtn.addEventListener("click", this.showOptions.bind(this));
 
     messageWrp.appendChild(msgOptionsBtn);
@@ -126,6 +127,7 @@ export default class MessageView extends emitter {
       const controlEl = document.createElement("a");
       controlEl.target = "_blank";
       controlEl.classList.add("contentControlsBtn");
+      controlEl.title = 'Download file'
       controlEl.href = content.download;
       controlEl.classList.add("loadBtn");
       controlEl.download = "content_name";

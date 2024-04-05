@@ -35,3 +35,5 @@
 * ### Просмотр вложений по категориям: аудио, видео, изображения, другие файлы
 ![](./ReadMeImages/content_nav.jpg)
 ![](./ReadMeImages/content.jpg)
+* ### Кнопка для подключения дефолтной базы данных
+![](./ReadMeImages/reset.jpg)

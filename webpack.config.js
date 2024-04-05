@@ -1,6 +1,7 @@
 const path = require('node:path');
 //const {logPlugin} = require("@babel/preset-env/lib/debug");
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
   devServer: {
@@ -45,5 +46,10 @@ module.exports = {
       template: './src/index.html',
       filename: './index.html',
     }),
+    new FaviconsWebpackPlugin({
+      logo: './src/img/feather-pointed-solid.svg',
+      mode: 'webapp',
+      devMode: 'webapp',
+    })
   ],
 };
