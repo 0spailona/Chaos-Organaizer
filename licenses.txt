@@ -1,1 +1,0 @@
-ok.svg,file.svg,text.svg:https://fontawesome.com/icons
