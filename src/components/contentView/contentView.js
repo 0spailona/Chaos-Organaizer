@@ -52,8 +52,9 @@ export default class ContentView extends emitter {
         || filter === messagesFilter.messages
         || filter === messagesFilter.favorites
         || filter === messagesFilter.search) {
-        this.drawOneMessage(message, true,filter);
-      } else {
+        this.drawOneMessage(message, true, filter);
+      }
+      else {
         this.drawContentMessage(message, filter);
       }
     }
@@ -77,7 +78,10 @@ export default class ContentView extends emitter {
     messageContentView.drawContentMessage(message);
   }
 
-  drawOneMessage(msg, revers,filter) {
+  drawOneMessage(msg, revers, filter) {
+    if (this.messages.find(x => x.data.id === msg.id)) {
+      return;
+    }
     MessageView.changeDateAndTypeFormat(msg);
     const msgView = new MessageView(this.container);
     this.messages.push(msgView);
@@ -92,10 +96,14 @@ export default class ContentView extends emitter {
     });
 
     msgView.on("deleteMessageDyId", (data) => this.emit("deleteMessage", data));
-    msgView.drawMessage(msg, revers,filter);
-    if (!revers) this.scrollDown();
+    msgView.drawMessage(msg, revers, filter);
+    if (!revers) {
+      this.scrollDown();
+    }
     this.isWholeContainer();
-    if (revers && this.whole <= 1) this.scrollDown();
+    if (revers && this.whole <= 1) {
+      this.scrollDown();
+    }
   }
 
   checkLastMsgDate(dateMsg) {
@@ -103,13 +111,18 @@ export default class ContentView extends emitter {
   }
 
   cleanContentContainer() {
-    if (this.container.scrollTop === 0) this.emit("needMoreMessages");
+    if (this.container.scrollTop === 0) {
+      this.emit("needMoreMessages");
+    }
     this.container.innerHTML = "";
     this.whole = 0;
     this.messages = [];
   }
 
   removeMessage(id) {
+    if (!this.messages.find(x => x.data.id === id)) {
+      return;
+    }
     const msg = this.messages.find(msg => msg.data.id === id);
     msg.removeMessage();
     this.messages.filter(msg => msg.data.id !== id);

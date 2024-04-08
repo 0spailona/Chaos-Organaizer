@@ -28,7 +28,9 @@ export default class MessageContentView extends emitter {
 
     const controlEl = document.createElement("a");
     controlEl.classList.add("contentControlsBtn");
-    controlEl.href = content.href;
+    controlEl.href = content.download;
+    controlEl.target = "_blank";
+    controlEl.title = 'Download file'
     controlEl.classList.add("loadBtn");
     controlEl.download = "content_name";
     this.contentContainer.appendChild(controlEl);
@@ -58,4 +60,7 @@ export default class MessageContentView extends emitter {
     this.fileEl.appendChild(typeFileEl);
   }
 
+  removeMessage() {
+    this.contentContainer.remove();
+  }
 }

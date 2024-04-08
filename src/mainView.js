@@ -17,7 +17,7 @@ export default class MainView extends emitter {
     this.header = new Header(this.rootContainer);
     this.header.on("toggleNav", this.toggleVisibleNav.bind(this));
     this.header.on("toggleSearchForm", this.toggleVisibleSearchForm.bind(this));
-    this.header.on("reset",() => this.emit('reset'))
+    this.header.on("reset", () => this.emit("reset"));
 
     this.navigator = new Navigator();
     this.navigator.on("getSectionName", this.getSectionName.bind(this));
@@ -68,8 +68,12 @@ export default class MainView extends emitter {
     this.contentView.drawMessageList(list, filter);
   }
 
-  addOneMessage(msg) {
-    this.contentView.drawOneMessage(msg, false);
+  addOneMessage(msg,filter) {
+    this.contentView.drawOneMessage(msg, false,filter);
+  }
+
+  addContentMessage(msg,filter){
+    this.contentView.drawContentMessage(msg,filter)
   }
 
   cleanContentView() {
@@ -86,11 +90,15 @@ export default class MainView extends emitter {
   }
 
   setPinMessage(msg) {
+    this.pinData = msg;
     this.pinMessage.addMessage(msg);
   }
 
   removePin() {
-    this.pinMessage.removePin();
+    if (this.pinData) {
+      this.pinMessage.removePin();
+    }
+    this.pinData = null;
   }
 
   removeMessage(id) {

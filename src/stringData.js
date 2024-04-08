@@ -6,7 +6,8 @@ const messagesFilter = {
     video: "video",
     audio: "audio",
     image: "image",
-    anotherType: "another"
+    anotherType: "another",
+    anotherTypeFilter: "anotherType"
   },
   search: "Search"
 };

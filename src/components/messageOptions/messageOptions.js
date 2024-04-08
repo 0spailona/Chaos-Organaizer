@@ -10,7 +10,6 @@ export default class MessageOptions extends emitter {
   drawMessageOptions(filter) {
     this.optionsContainer = document.createElement("div");
     this.optionsContainer.classList.add("optionsContainer", "hidden");
-    console.log("filter", filter);
     if (filter !== messagesFilter.favorites) {
       this.drawButton("toFavorite");
     }

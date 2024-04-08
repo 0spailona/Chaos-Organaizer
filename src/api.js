@@ -1,12 +1,60 @@
 import messagesFilter from "./stringData";
 import {slugify} from "transliteration";
+import emitter from "component-emitter";
 
-export default class Api {
+export default class Api extends emitter {
   constructor(url) {
+    super();
     this.url = url;
+    const eventSourse = new EventSource(`${url}/sse`, {withCredentials: true});
+    eventSourse.addEventListener("open", this.onOpen.bind(this));
+    eventSourse.addEventListener("error", this.onError.bind(this));
+    eventSourse.addEventListener("message", this.onMessage.bind(this));
+    eventSourse.addEventListener("newMessage", this.onNewMessage.bind(this));
+    eventSourse.addEventListener("deleteMessage", this.onDeleteMessage.bind(this));
+    eventSourse.addEventListener("setNewPin", this.onSetPin.bind(this));
+    eventSourse.addEventListener("upPinMsg", this.onUnPin.bind(this));
   }
 
-  async setDefaultDB(){
+  onOpen(e) {
+    console.log("open", e);
+  }
+
+  onError(e) {
+    console.log("onError", e);
+  }
+
+  onMessage(e) {
+    console.log("onMessage", JSON.parse(e.data));
+    /*const data = JSON.parse(e.data)
+    const {msg,event} = data
+    if(event === '')*/
+  }
+
+  onNewMessage(e) {
+    console.log("newMessage", JSON.parse(e.data));
+    const data = JSON.parse(e.data)
+    this.emit("newMessageInDB", data.msg);
+  }
+
+  onDeleteMessage(e){
+    console.log('delete',JSON.parse(e.data))
+    const data = JSON.parse(e.data)
+    this.emit("deleteMessageFromDB", data.id);
+  }
+
+  onSetPin(e){
+    console.log('pin',JSON.parse(e.data))
+    const data = JSON.parse(e.data)
+    this.emit("newPinFromDB", data.pin);
+  }
+
+  onUnPin(e){
+    console.log('UnPin',JSON.parse(e.data))
+    this.emit('upPinFromDB')
+  }
+
+  async setDefaultDB() {
     const url = this.url + `/messages/reset`;
     const request = fetch(url, {
       method: "POST",
@@ -14,7 +62,7 @@ export default class Api {
     });
     const result = await request;
     if (result.status !== 200) {
-      console.log('error');
+      console.log("error");
       return;
     }
     return true;
@@ -26,8 +74,8 @@ export default class Api {
     };
 
     if (file) {
-        headers["X-File-Name"] = slugify(file.name);
-        headers["X-File-describe"] = encodeURI(file.text);
+      headers["X-File-Name"] = slugify(file.name);
+      headers["X-File-describe"] = encodeURI(file.text);
     }
 
     if (coords) {
