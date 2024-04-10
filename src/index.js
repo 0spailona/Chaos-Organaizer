@@ -12,5 +12,5 @@ import "./components/messageOptions/messageOptions.css";
 import "./components/contentMessage/contentMessage.css";
 import "./components/pinMMessage/pinMessage.css";
 import "./components/forms/css/searchForm.css";
-
+import "./components/message/progressBar.css"
 

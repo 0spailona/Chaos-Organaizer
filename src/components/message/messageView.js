@@ -2,6 +2,7 @@ import dateFormat from "dateformat";
 import MessageOptions from "../messageOptions/messageOptions";
 import emitter from "component-emitter";
 import {replaceURLWithHTMLLinks} from "../../utils";
+import MessageWithContent from "./messageWithContent";
 
 
 export default class MessageView extends emitter {
@@ -75,6 +76,10 @@ export default class MessageView extends emitter {
       this.emit("toFavoriteById", this.data.id);
       this.hideOptions();
     });
+    msgOptions.on("unFavorite", () => {
+      this.emit("unFavoriteById", this.data.id);
+      this.hideOptions();
+    });
     msgOptions.on("setToPin", () => {
       this.emit("setToPinData", this.data);
       this.hideOptions();
@@ -99,100 +104,29 @@ export default class MessageView extends emitter {
   }
 
   drawFileMessage() {
-    const {type} = this.data;
+    const {type,content,fullType} = this.data;
+    let message
     switch (type) {
       case "image":
-        this.drawImage();
+        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
+        message.drawImage()
+        //this.drawImage();
         break;
       case "video":
-        this.drawVideo();
+        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
+        message.drawVideo()
+        //this.drawVideo();
         break;
       case "audio":
-        this.drawAudio();
+        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
+        message.drawAudio()
+        //this.drawAudio();
         break;
       default:
-        this.drawAnonymousFile();
+        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
+        message.drawAnonymousFile()
+        //this.drawAnonymousFile();
     }
-  }
-
-  drawControlsWrp(content) {
-    const controls = document.createElement("div");
-    controls.classList.add("contentControls");
-    this.drawControlBtn("load", controls, content);
-    this.wrpFileContent.appendChild(controls);
-  }
-
-  drawControlBtn(use, controlsContainer, content) {
-    if (use === "load") {
-      const controlEl = document.createElement("a");
-      controlEl.target = "_blank";
-      controlEl.classList.add("contentControlsBtn");
-      controlEl.title = 'Download file'
-      controlEl.href = content.download;
-      controlEl.classList.add("loadBtn");
-      controlEl.download = "content_name";
-      controlsContainer.appendChild(controlEl);
-    }
-  }
-
-  drawAnonymousFile() {
-    const {content} = this.data;
-    this.drawControlsWrp(content);
-    const fileImgAndName = document.createElement("div");
-    fileImgAndName.classList.add("wrpAnotherType");
-
-    const typeImg = document.createElement("div");
-    typeImg.classList.add("anotherFileTypeImg");
-    fileImgAndName.appendChild(typeImg);
-
-    const fileName = document.createElement("span");
-    fileName.classList.add("anotherFileName");
-    fileName.textContent = content.name;
-    fileImgAndName.appendChild(fileName);
-
-    this.wrpFileContent.appendChild(fileImgAndName);
-    this.message.appendChild(this.wrpFileContent);
-  }
-
-  drawVideo() {
-    const {content} = this.data;
-    this.drawControlsWrp(content);
-    const video = document.createElement("video");
-    video.classList.add("videoMsg");
-    video.src = content.href;
-    video.controls = true;
-    this.wrpFileContent.appendChild(video);
-    this.message.appendChild(this.wrpFileContent);
-  }
-
-  drawImage() {
-    this.wrpFileContent.querySelector(".brokenImg")?.remove();
-    const {content} = this.data;
-    this.drawControlsWrp(content);
-    const img = document.createElement("img");
-    img.classList.add("imgMsg");
-    img.src = content.href;
-    img.onerror = e => {
-      e.target.remove();
-      const defaultImg = document.createElement("div");
-      defaultImg.classList.add("brokenImg");
-      this.wrpFileContent.appendChild(defaultImg);
-    };
-    img.alt = content.text;
-    this.wrpFileContent.appendChild(img);
-    this.message.appendChild(this.wrpFileContent);
-  }
-
-  drawAudio() {
-    const {content, fullType} = this.data;
-    this.drawControlsWrp(content);
-    const audio = document.createElement("audio");
-    audio.classList.add("audioMsg");
-    audio.src = content.href;
-    audio.type = fullType;
-    audio.preload = "auto";
-    audio.controls = true;
-    this.wrpFileContent.appendChild(audio);
     this.message.appendChild(this.wrpFileContent);
   }
 

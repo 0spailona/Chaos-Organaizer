@@ -26,4 +26,39 @@ export function replaceURLWithHTMLLinks(text) {
   return text;
 }
 
+export function secondsToTimeFormat(seconds) {
+  const minute = 60;
+  const hour = 60 * minute;
+  let hoursPart = "0";
+  let minutePart = "0";
+  let secondPart = "0";
 
+  if (seconds < 10) {
+    return `${minutePart} : 0${seconds}`;
+  }
+  if (seconds < minute) {
+    return `${minutePart} : ${seconds}`;
+  }
+  if (seconds >= hour) {
+    hoursPart = Math.floor(seconds / hour);
+    const minAndSec = seconds % hour;
+    minutePart = Math.floor(minAndSec / minute);
+    secondPart = minAndSec % minute;
+
+    minutePart = minutePart <10 ? `0${minutePart}` : minutePart
+    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart
+
+    return `${hoursPart} : ${minutePart} : ${secondPart}`
+  }
+
+  if(seconds < hour){
+    minutePart = Math.floor(seconds / minute);
+    secondPart = seconds % minute;
+
+    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart
+    return `${minutePart} : ${secondPart}`
+  }
+
+}
+
+//console.log(secondsToTimeFormat(22231));

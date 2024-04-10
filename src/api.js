@@ -14,6 +14,8 @@ export default class Api extends emitter {
     eventSourse.addEventListener("deleteMessage", this.onDeleteMessage.bind(this));
     eventSourse.addEventListener("setNewPin", this.onSetPin.bind(this));
     eventSourse.addEventListener("upPinMsg", this.onUnPin.bind(this));
+    eventSourse.addEventListener("onToFavorite", this.onToFavorite.bind(this));
+    eventSourse.addEventListener("onUnFavorite", this.onUnFavorite.bind(this));
   }
 
   onOpen(e) {
@@ -52,6 +54,18 @@ export default class Api extends emitter {
   onUnPin(e){
     console.log('UnPin',JSON.parse(e.data))
     this.emit('upPinFromDB')
+  }
+
+  onToFavorite(e){
+    const data = JSON.parse(e.data)
+    this.emit("newFavoriteFromDB", data.msg);
+    console.log('api onToFavorite', data.msg)
+  }
+
+  onUnFavorite(e){
+    const data = JSON.parse(e.data)
+    this.emit("onUnFavoriteFromDB", data.id);
+    console.log('api onUnFavorite', data.id)
   }
 
   async setDefaultDB() {
@@ -150,12 +164,12 @@ export default class Api extends emitter {
   }
 
 
-  async toFavorite(id) {
+  async toAndFromFavorite(id,isFavorite) {
     const url = this.url + `/messages/${id}`;
     const request = fetch(url, {
       method: "PATCH",
       credentials: "include",
-      body: true
+      body: isFavorite
     });
     const result = await request;
     if (!result.ok) {
@@ -163,6 +177,10 @@ export default class Api extends emitter {
       return false;
     }
     return true;
+  }
+
+  async unFavorite(id){
+
   }
 
   async setToPin(id) {

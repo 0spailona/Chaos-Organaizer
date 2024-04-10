@@ -12,7 +12,8 @@ export default class Controller {
     this.view.on("needMoreMessages", this.needMoreMessages.bind(this));
     this.view.on("sendMessage", this.sendMessage.bind(this));
     this.view.on("onMode", this.mode.bind(this));
-    this.view.on("toFavorite", this.toFavorite.bind(this));
+    this.view.on("toFavorite", (id) => this.toAndFromFavorite(id, true));
+    this.view.on("unFavorite", (id) => this.toAndFromFavorite(id, false));
     this.view.on("setToPin", this.setPinMessage.bind(this));
     this.view.on("deletePin", this.deletePin.bind(this));
     this.view.on("deleteMessage", this.deleteMessage.bind(this));
@@ -30,6 +31,8 @@ export default class Controller {
         this.view.removePin();
       }
     });
+    this.api.on("newFavoriteFromDB", this.getNewFavoriteFromDB.bind(this));
+    this.api.on("onUnFavoriteFromDB", this.onUnFavoriteFromDB.bind(this));
     //this.view.on("notDefault",this.loadSession.bind(this));
 
     // noinspection JSIgnoredPromiseFromCall
@@ -95,12 +98,22 @@ export default class Controller {
 
   }
 
-  deleteMessageInDB(id) {
-    //if (this.filter === stringData.messages) {
-      this.view.removeMessage(id);
-    //}
 
+  getNewFavoriteFromDB(msg){
+    console.log('getNewFavoriteFromDB msg', msg)
+    if(this.filter === stringData.favorites){
+      console.log('getNewFavoriteFromDB filter', this.filter)
+      msg = this.processMessages([msg])[0];
+      this.view.addOneMessage(msg,this.filter)
+    }
+  }
 
+  onUnFavoriteFromDB(id){
+    console.log('onUnFavoriteFromDB id', id)
+    if(this.filter === stringData.favorites){
+      console.log('getNewFavoriteFromDB filter', this.filter)
+      this.view.removeMessage(id)
+    }
   }
 
   processMessages(list) {
@@ -118,14 +131,12 @@ export default class Controller {
 
 
   async needMoreMessages() {
-    console.log(
-      "this.filter",this.filter
-    );
+
     const options = {start: this.start, limit: this.limit, filter: this.filter, searchText: null};
     this.start += this.limit;
 
     const list = await this.getMessagesList(options);
-    console.log('list messages',list)
+
     if (!list) {
       return;
     }
@@ -190,9 +201,13 @@ export default class Controller {
   }
 
 
-  async toFavorite(id) {
-    await this.api.toFavorite(id);
+  async toAndFromFavorite(id, isFavorite) {
+    await this.api.toAndFromFavorite(id, isFavorite);
+    if(this.filter === stringData.favorites && !isFavorite){
+      this.view.removeMessage(id)
+    }
   }
+
 
   async deleteMessage(id) {
     if (!await this.api.deleteMessage(id)) {

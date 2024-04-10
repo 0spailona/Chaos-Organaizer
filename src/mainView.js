@@ -37,6 +37,7 @@ export default class MainView extends emitter {
     proxyEvent(this.navigator, this, "onMode");
 
     this.contentView.on("toFavorite", (id) => this.emit("toFavorite", id));
+    this.contentView.on("unFavorite", (id) => this.emit("unFavorite", id));
     this.contentView.on("setToPin", (data) => this.emit("setToPin", data));
     this.contentView.on("deleteMessage", (id) => this.emit("deleteMessage", id));
 

@@ -85,7 +85,9 @@ export default class ContentView extends emitter {
     MessageView.changeDateAndTypeFormat(msg);
     const msgView = new MessageView(this.container);
     this.messages.push(msgView);
+    console.log('drawOneMessage this.messages',this.messages)
     msgView.on("toFavoriteById", (id) => this.emit("toFavorite", id));
+    msgView.on("unFavoriteById", (id) => this.emit("unFavorite", id));
     msgView.on("setToPinData", (data) => this.emit("setToPin", data));
     msgView.on("showOptions", (msgWithOptions) => {
       for (const msg of this.messages) {
@@ -126,5 +128,6 @@ export default class ContentView extends emitter {
     const msg = this.messages.find(msg => msg.data.id === id);
     msg.removeMessage();
     this.messages.filter(msg => msg.data.id !== id);
+    console.log('removeMessage this.messages',this.messages)
   }
 }

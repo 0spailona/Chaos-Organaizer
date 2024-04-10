@@ -243,12 +243,18 @@
   background-image: url("../img/add-to-favorite.svg");
 }
 
+.unFavorite {
+  background-image: url("../img/unfavorite.svg");
+}
+
 /*Content buttons*/
 
 .contentControlsBtn {
+  box-sizing: border-box;
   width: 2rem;
   height: 2rem;
   border: none;
+  padding: 0 0.26rem;
   border-radius: 8px;
   background-color: #88A154;
 }
@@ -256,7 +262,7 @@
 .loadBtn::after {
   content: '';
   display: block;
-  margin: 0.25rem;
+  margin-top: 0.25rem;
   width: 1.4rem;
   height: 1.4rem;
   background-image: url("../img/load.svg");
@@ -265,6 +271,76 @@
   background-size: contain;
 }
 
+.playBtn::after {
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/play.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.stopBtn::after {
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/stop.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.muteBtn::after{
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/volume-off.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.unMuteBtn::after{
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/volume-unmute.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.volumeUp::after{
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/volume-high.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.volumeDown::after{
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-image: url("../img/volume-low.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.inactive{
+background-color: #b5c18a;
+  pointer-events: none;
+}
 /*Pin remove button*/
 
 .removePinBtn {

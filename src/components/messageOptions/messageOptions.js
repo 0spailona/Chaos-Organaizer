@@ -13,7 +13,7 @@ export default class MessageOptions extends emitter {
     if (filter !== messagesFilter.favorites) {
       this.drawButton("toFavorite");
     }
-
+    this.drawButton("unFavorite");
     //Update button is not ready to use
     /*this.drawButton('update')*/
     this.drawButton("toPin");
@@ -31,6 +31,13 @@ export default class MessageOptions extends emitter {
         btn.title = "To do favorite";
         btn.addEventListener("click", () => {
           this.emit("toFavorite");
+        });
+        break;
+      case "unFavorite":
+        btn.classList.add("unFavorite");
+        btn.title = "To delete from favorite";
+        btn.addEventListener("click", () => {
+          this.emit("unFavorite");
         });
         break;
       case "update":
