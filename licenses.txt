@@ -1,1 +1,2 @@
-ok.svg,file.svg,text.svg:https://fontawesome.com/icons
+all svg:https://fontawesome.com/icons
+img.jpg:my own photo

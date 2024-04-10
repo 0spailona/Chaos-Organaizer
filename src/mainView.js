@@ -69,12 +69,12 @@ export default class MainView extends emitter {
     this.contentView.drawMessageList(list, filter);
   }
 
-  addOneMessage(msg,filter) {
-    this.contentView.drawOneMessage(msg, false,filter);
+  addOneMessage(msg, filter) {
+    this.contentView.drawOneMessage(msg, false, filter);
   }
 
-  addContentMessage(msg,filter){
-    this.contentView.drawContentMessage(msg,filter)
+  addContentMessage(msg, filter) {
+    this.contentView.drawContentMessage(msg, filter);
   }
 
   cleanContentView() {
@@ -113,6 +113,4 @@ export default class MainView extends emitter {
   getSectionName() {
     this.navigator.setSectionName(this.header.getCurrentNameSection());
   }
-
-
 }

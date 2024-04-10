@@ -45,20 +45,18 @@ export function secondsToTimeFormat(seconds) {
     minutePart = Math.floor(minAndSec / minute);
     secondPart = minAndSec % minute;
 
-    minutePart = minutePart <10 ? `0${minutePart}` : minutePart
-    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart
+    minutePart = minutePart < 10 ? `0${minutePart}` : minutePart;
+    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart;
 
-    return `${hoursPart} : ${minutePart} : ${secondPart}`
+    return `${hoursPart} : ${minutePart} : ${secondPart}`;
   }
 
-  if(seconds < hour){
+  if (seconds < hour) {
     minutePart = Math.floor(seconds / minute);
     secondPart = seconds % minute;
 
-    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart
-    return `${minutePart} : ${secondPart}`
+    secondPart = secondPart < 10 ? `0${secondPart}` : secondPart;
+    return `${minutePart} : ${secondPart}`;
   }
-
 }
 
-//console.log(secondsToTimeFormat(22231));

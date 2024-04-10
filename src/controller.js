@@ -33,7 +33,6 @@ export default class Controller {
     });
     this.api.on("newFavoriteFromDB", this.getNewFavoriteFromDB.bind(this));
     this.api.on("onUnFavoriteFromDB", this.onUnFavoriteFromDB.bind(this));
-    //this.view.on("notDefault",this.loadSession.bind(this));
 
     // noinspection JSIgnoredPromiseFromCall
     this.init();
@@ -95,24 +94,20 @@ export default class Controller {
         this.view.addContentMessage(msg, this.filter);
       }
     }
-
   }
 
-
-  getNewFavoriteFromDB(msg){
-    console.log('getNewFavoriteFromDB msg', msg)
-    if(this.filter === stringData.favorites){
-      console.log('getNewFavoriteFromDB filter', this.filter)
+  getNewFavoriteFromDB(msg) {
+    console.log("getNewFavoriteFromDB msg", msg);
+    if (this.filter === stringData.favorites) {
+      console.log("getNewFavoriteFromDB filter", this.filter);
       msg = this.processMessages([msg])[0];
-      this.view.addOneMessage(msg,this.filter)
+      this.view.addOneMessage(msg, this.filter);
     }
   }
 
-  onUnFavoriteFromDB(id){
-    console.log('onUnFavoriteFromDB id', id)
-    if(this.filter === stringData.favorites){
-      console.log('getNewFavoriteFromDB filter', this.filter)
-      this.view.removeMessage(id)
+  onUnFavoriteFromDB(id) {
+    if (this.filter === stringData.favorites) {
+      this.view.removeMessage(id);
     }
   }
 
@@ -129,12 +124,9 @@ export default class Controller {
     return list;
   }
 
-
   async needMoreMessages() {
-
     const options = {start: this.start, limit: this.limit, filter: this.filter, searchText: null};
     this.start += this.limit;
-
     const list = await this.getMessagesList(options);
 
     if (!list) {
@@ -155,7 +147,6 @@ export default class Controller {
     }
     return this.processMessages(newList);
   }
-
 
   async searchMessagesByText(data) {
     this.filter = messagesFilter.search;
@@ -196,18 +187,15 @@ export default class Controller {
     }
 
     msgFullData = this.processMessages([msgFullData])[0];
-
     this.view.addOneMessage(msgFullData, this.filter);
   }
 
-
   async toAndFromFavorite(id, isFavorite) {
     await this.api.toAndFromFavorite(id, isFavorite);
-    if(this.filter === stringData.favorites && !isFavorite){
-      this.view.removeMessage(id)
+    if (this.filter === stringData.favorites && !isFavorite) {
+      this.view.removeMessage(id);
     }
   }
-
 
   async deleteMessage(id) {
     if (!await this.api.deleteMessage(id)) {

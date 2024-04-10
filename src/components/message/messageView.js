@@ -6,9 +6,8 @@ import MessageWithContent from "./messageWithContent";
 
 
 export default class MessageView extends emitter {
-  constructor(container) {
+  constructor() {
     super();
-    this.container = container;
   }
 
   static changeDateAndTypeFormat(message) {
@@ -20,7 +19,7 @@ export default class MessageView extends emitter {
     message.type = message.type.slice(0, typeSlashPos);
   }
 
-  drawMessage(data, reverse,filter) {
+  drawMessage(data, filter) {
     this.filter = filter;
     this.data = data;
     this.messageContainer = document.createElement("div");
@@ -31,7 +30,7 @@ export default class MessageView extends emitter {
 
     const msgOptionsBtn = document.createElement("button");
     msgOptionsBtn.classList.add("msgOptionsBtn", "showOptions");
-    msgOptionsBtn.title = 'Message menu'
+    msgOptionsBtn.title = "Message menu";
     msgOptionsBtn.addEventListener("click", this.showOptions.bind(this));
 
     messageWrp.appendChild(msgOptionsBtn);
@@ -52,7 +51,8 @@ export default class MessageView extends emitter {
       this.wrpFileContent.classList.add("wrpFileContent");
       this.message.classList.add("typeFile");
       this.drawFileMessage();
-    } else {
+    }
+    else {
       this.message.classList.add("typeText");
     }
     const timeEl = document.createElement("span");
@@ -62,12 +62,8 @@ export default class MessageView extends emitter {
     messageWrp.appendChild(this.message);
     this.messageContainer.appendChild(messageWrp);
 
-    if (!reverse) {
-      this.container.appendChild(this.messageContainer);
-    } else {
-      this.container.insertAdjacentElement("afterbegin", this.messageContainer);
-    }
     this.drawMessageOptions();
+    return this.messageContainer;
   }
 
   drawMessageOptions() {
@@ -104,28 +100,24 @@ export default class MessageView extends emitter {
   }
 
   drawFileMessage() {
-    const {type,content,fullType} = this.data;
-    let message
+    const {type, content, fullType} = this.data;
+    let message;
     switch (type) {
       case "image":
-        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
-        message.drawImage()
-        //this.drawImage();
+        message = new MessageWithContent(type, content, fullType, this.wrpFileContent);
+        message.drawImage();
         break;
       case "video":
-        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
-        message.drawVideo()
-        //this.drawVideo();
+        message = new MessageWithContent(type, content, fullType, this.wrpFileContent);
+        message.drawVideo();
         break;
       case "audio":
-        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
-        message.drawAudio()
-        //this.drawAudio();
+        message = new MessageWithContent(type, content, fullType, this.wrpFileContent);
+        message.drawAudio();
         break;
       default:
-        message = new MessageWithContent(type,content,fullType,this.wrpFileContent)
-        message.drawAnonymousFile()
-        //this.drawAnonymousFile();
+        message = new MessageWithContent(type, content, fullType, this.wrpFileContent);
+        message.drawAnonymousFile();
     }
     this.message.appendChild(this.wrpFileContent);
   }

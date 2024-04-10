@@ -79,26 +79,35 @@ export default class ContentView extends emitter {
   }
 
   drawOneMessage(msg, revers, filter) {
-    if (this.messages.find(x => x.data.id === msg.id)) {
+    if (this.messages.find(x => x.id === msg.id)) {
       return;
     }
     MessageView.changeDateAndTypeFormat(msg);
-    const msgView = new MessageView(this.container);
-    this.messages.push(msgView);
-    console.log('drawOneMessage this.messages',this.messages)
+    const msgView = new MessageView();
+
     msgView.on("toFavoriteById", (id) => this.emit("toFavorite", id));
     msgView.on("unFavoriteById", (id) => this.emit("unFavorite", id));
     msgView.on("setToPinData", (data) => this.emit("setToPin", data));
     msgView.on("showOptions", (msgWithOptions) => {
       for (const msg of this.messages) {
-        if (msg !== msgWithOptions) {
-          msg.hideOptions();
+        if (msg.view !== msgWithOptions) {
+          msg.view.hideOptions();
         }
       }
     });
 
     msgView.on("deleteMessageDyId", (data) => this.emit("deleteMessage", data));
-    msgView.drawMessage(msg, revers, filter);
+
+    const msgViewEl = msgView.drawMessage(msg, revers, filter);
+    this.messages.push({id: msg.id, msg: msgViewEl, view: msgView});
+    if (!revers) {
+      this.container.appendChild(msgViewEl);
+
+    }
+    else {
+      this.container.insertAdjacentElement("afterbegin", msgViewEl);
+    }
+
     if (!revers) {
       this.scrollDown();
     }
@@ -122,12 +131,12 @@ export default class ContentView extends emitter {
   }
 
   removeMessage(id) {
-    if (!this.messages.find(x => x.data.id === id)) {
+    if (!this.messages.find(x => x.id === id)) {
       return;
     }
-    const msg = this.messages.find(msg => msg.data.id === id);
-    msg.removeMessage();
-    this.messages.filter(msg => msg.data.id !== id);
-    console.log('removeMessage this.messages',this.messages)
+    const msg = this.messages.find(msg => msg.id === id);
+    msg.view.removeMessage();
+
+    this.messages = this.messages.filter(msg => msg.id !== id);
   }
 }

@@ -9,7 +9,6 @@ export default class Api extends emitter {
     const eventSourse = new EventSource(`${url}/sse`, {withCredentials: true});
     eventSourse.addEventListener("open", this.onOpen.bind(this));
     eventSourse.addEventListener("error", this.onError.bind(this));
-    eventSourse.addEventListener("message", this.onMessage.bind(this));
     eventSourse.addEventListener("newMessage", this.onNewMessage.bind(this));
     eventSourse.addEventListener("deleteMessage", this.onDeleteMessage.bind(this));
     eventSourse.addEventListener("setNewPin", this.onSetPin.bind(this));
@@ -26,46 +25,33 @@ export default class Api extends emitter {
     console.log("onError", e);
   }
 
-  onMessage(e) {
-    console.log("onMessage", JSON.parse(e.data));
-    /*const data = JSON.parse(e.data)
-    const {msg,event} = data
-    if(event === '')*/
-  }
-
   onNewMessage(e) {
-    console.log("newMessage", JSON.parse(e.data));
-    const data = JSON.parse(e.data)
+    const data = JSON.parse(e.data);
     this.emit("newMessageInDB", data.msg);
   }
 
-  onDeleteMessage(e){
-    console.log('delete',JSON.parse(e.data))
-    const data = JSON.parse(e.data)
+  onDeleteMessage(e) {
+    const data = JSON.parse(e.data);
     this.emit("deleteMessageFromDB", data.id);
   }
 
-  onSetPin(e){
-    console.log('pin',JSON.parse(e.data))
-    const data = JSON.parse(e.data)
+  onSetPin(e) {
+    const data = JSON.parse(e.data);
     this.emit("newPinFromDB", data.pin);
   }
 
-  onUnPin(e){
-    console.log('UnPin',JSON.parse(e.data))
-    this.emit('upPinFromDB')
+  onUnPin() {
+    this.emit("upPinFromDB");
   }
 
-  onToFavorite(e){
-    const data = JSON.parse(e.data)
+  onToFavorite(e) {
+    const data = JSON.parse(e.data);
     this.emit("newFavoriteFromDB", data.msg);
-    console.log('api onToFavorite', data.msg)
   }
 
-  onUnFavorite(e){
-    const data = JSON.parse(e.data)
+  onUnFavorite(e) {
+    const data = JSON.parse(e.data);
     this.emit("onUnFavoriteFromDB", data.id);
-    console.log('api onUnFavorite', data.id)
   }
 
   async setDefaultDB() {
@@ -117,7 +103,6 @@ export default class Api extends emitter {
   }
 
   async createNewTextMsg(text, coords) {
-    //console.log('api text',text);
     const headers = this.createHeaders(coords, null);
     const url = this.url + `/messages/text`;
     const request = fetch(url, {
@@ -164,7 +149,7 @@ export default class Api extends emitter {
   }
 
 
-  async toAndFromFavorite(id,isFavorite) {
+  async toAndFromFavorite(id, isFavorite) {
     const url = this.url + `/messages/${id}`;
     const request = fetch(url, {
       method: "PATCH",
@@ -177,10 +162,6 @@ export default class Api extends emitter {
       return false;
     }
     return true;
-  }
-
-  async unFavorite(id){
-
   }
 
   async setToPin(id) {

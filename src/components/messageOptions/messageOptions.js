@@ -14,8 +14,6 @@ export default class MessageOptions extends emitter {
       this.drawButton("toFavorite");
     }
     this.drawButton("unFavorite");
-    //Update button is not ready to use
-    /*this.drawButton('update')*/
     this.drawButton("toPin");
     this.drawButton("delete");
     return this.optionsContainer;
@@ -39,9 +37,6 @@ export default class MessageOptions extends emitter {
         btn.addEventListener("click", () => {
           this.emit("unFavorite");
         });
-        break;
-      case "update":
-        btn.classList.add("update");
         break;
       case "toPin":
         btn.classList.add("toPin");

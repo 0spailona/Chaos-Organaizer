@@ -293,7 +293,7 @@
   background-size: contain;
 }
 
-.muteBtn::after{
+.muteBtn::after {
   content: '';
   display: block;
   width: 1.4rem;
@@ -304,7 +304,7 @@
   background-size: contain;
 }
 
-.unMuteBtn::after{
+.unMuteBtn::after {
   content: '';
   display: block;
   width: 1.4rem;
@@ -315,7 +315,7 @@
   background-size: contain;
 }
 
-.volumeUp::after{
+.volumeUp::after {
   content: '';
   display: block;
   width: 1.4rem;
@@ -326,7 +326,7 @@
   background-size: contain;
 }
 
-.volumeDown::after{
+.volumeDown::after {
   content: '';
   display: block;
   width: 1.4rem;
@@ -337,10 +337,11 @@
   background-size: contain;
 }
 
-.inactive{
-background-color: #b5c18a;
+.inactive {
+  background-color: #b5c18a;
   pointer-events: none;
 }
+
 /*Pin remove button*/
 
 .removePinBtn {

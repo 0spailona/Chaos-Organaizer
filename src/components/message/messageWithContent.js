@@ -19,12 +19,9 @@ export default class MessageWithContent {
     video.muted = false;
 
     video.addEventListener("click", this.videoOnClick.bind(this));
-
     video.addEventListener("ended", this.mediaElementOnEnd.bind(this));
 
-
     this.container.appendChild(video);
-
     this.drawProgressBar();
   }
 
@@ -63,14 +60,12 @@ export default class MessageWithContent {
       this.progress.value = this.element.currentTime / this.durationOnePersent;
       this.value = Math.floor(this.element.currentTime);
       this.progressText.textContent = `${secondsToTimeFormat(this.value)} | ${this.durationForDraw}`;
-      console.log("volume", this.element.volume);
     });
   }
 
   async mediaElementOnPlay() {
     this.playBtnOnPlay();
     await this.element.play();
-
   }
 
   mediaElementOnStop() {
@@ -78,8 +73,7 @@ export default class MessageWithContent {
     this.element.pause();
   }
 
-  mediaElementOnEnd(e) {
-    console.log("End!");
+  mediaElementOnEnd() {
     this.playBtnOnStop();
   }
 
@@ -197,15 +191,16 @@ export default class MessageWithContent {
     return this.playBtn;
   }
 
-  drawLoadBtn(){
+  drawLoadBtn() {
     const loadBtn = document.createElement("a");
     loadBtn.target = "_blank";
     loadBtn.classList.add("contentControlsBtn", "loadBtn");
     loadBtn.title = "Download file";
     loadBtn.href = this.content.download;
     loadBtn.download = "content_name";
-    return loadBtn
+    return loadBtn;
   }
+
   drawVolumeUpBtn() {
     this.volumeUpBtn = document.createElement("button");
     this.volumeUpBtn.title = "Volume up";

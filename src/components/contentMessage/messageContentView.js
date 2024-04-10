@@ -30,7 +30,7 @@ export default class MessageContentView extends emitter {
     controlEl.classList.add("contentControlsBtn");
     controlEl.href = content.download;
     controlEl.target = "_blank";
-    controlEl.title = 'Download file'
+    controlEl.title = "Download file";
     controlEl.classList.add("loadBtn");
     controlEl.download = "content_name";
     this.contentContainer.appendChild(controlEl);
